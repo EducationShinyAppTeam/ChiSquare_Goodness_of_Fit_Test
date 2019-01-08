@@ -1,0 +1,47 @@
+.skin-blue .main-header>.navbar {
+background-color: #FF5733;
+}
+.content-wrapper,.right-side {
+background-color: white;
+}
+.skin-blue .main-header .logo {
+background-color: #FF5733;
+color: white;
+}
+.skin-blue .main-header .logo:hover {
+background-color: black;
+}
+aside.main-sidebar {
+background-color: black !important;
+}
+#explore, #bsButton4,#resample,#reset {
+  color:white;
+  background-color: #FF5733;
+  border-color: #FF5733;
+}
+#submitX, #nextX{
+  color:white;
+  background-color: #FF5733;
+  border-color: #FF5733;
+  font-size: 20px;
+}
+#question,#questionChoice{
+  font-size: 25px;
+}
+#test{
+  color:#FF5733;
+  /*background-color: #FF5733;
+  border-color: #FF5733;*/
+}
+
+/*.popover-content {
+color: white;
+background-color:#FF5733;
+font-size: 15px;
+}
+*/
+
+
+
+
+
