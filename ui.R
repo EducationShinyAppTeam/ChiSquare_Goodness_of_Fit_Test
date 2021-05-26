@@ -1,13 +1,18 @@
+# Load Packages ----
 library(shiny)
 library(shinydashboard)
 library(ggplot2)
 library(shinyBS)
 library(shinyjs)
-dashboardPage(#skin="orange",
-              
-              #Title
-              dashboardHeader(title="Chi-Square Goodness-fit-Test and Simulation ",titleWidth=450),
-              
+
+# Define UI for App ----
+ui <- list( 
+  ## Create the app page ----
+  dashboardPage(#skin="orange",
+              #Title ----
+              dashboardHeader(
+                title="Chi-Square Goodness-fit-Test and Simulation ",
+                titleWidth=450),
               #Sidebar
               dashboardSidebar(
                 width = 221,
