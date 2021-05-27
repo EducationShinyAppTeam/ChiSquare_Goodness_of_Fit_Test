@@ -4,7 +4,6 @@ library(shinydashboard)
 library(shinyBS)
 library(shinyWidgets)
 library(boastUtils)
-library(shinyjs)
 library(ggplot2)
 
 # Define UI for App ----
