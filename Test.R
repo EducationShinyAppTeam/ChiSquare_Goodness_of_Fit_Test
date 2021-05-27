@@ -9,332 +9,332 @@ library(ggplot2)
 
 # Define UI for App ----
 ui <- list( 
-   ## Create the app page ----
-   dashboardPage(
-     skin = "purple",
-     ### Create the app header ----
-     dashboardHeader(
+  ## Create the app page ----
+  dashboardPage(
+    skin = "purple",
+    ### Create the app header ----
+    dashboardHeader(
       title = "Chi-Square Goodness-fit-Test and Simulation",
-                titleWidth = 250,
-     tags$li(class = "dropdown", actionLink("info", icon("info"))),
-     tags$li(class = "dropdown", boastUtils::surveyLink(name = "Chi-Square Goodness-fit-Test and Simulation")),
-     tags$li(class = "dropdown",tags$a(href = 'https://shinyapps.science.psu.edu/',
-              icon("home")
-       )
+      titleWidth = 250,
+      tags$li(class = "dropdown", actionLink("info", icon("info"))),
+      tags$li(class = "dropdown", boastUtils::surveyLink(name = "Chi-Square Goodness-fit-Test and Simulation")),
+      tags$li(class = "dropdown",tags$a(href = 'https://shinyapps.science.psu.edu/',
+                                        icon("home")
       )
-     ),
-     ### Create the sidebar/left navigation menu ----
-              dashboardSidebar(
-                sidebarMenu(
-                  id = "pages",
-                  menuItem("Overview", tabName = "overview", icon = icon("dashboard")),
-                  menuItem("Prerequisites", tabName = "prerequisites", icon = icon("book")),
-                  menuItem("Example", tabName = "example", icon = icon("wpexplorer")),
-                  menuItem("Explore", tabName = "explore", icon = icon("wpexplorer")),
-                  menuItem("References", tabName = "references", icon = icon("leanpub"))
-                ),
-                tags$div(
-                  class = "sidebar-logo",
-                  boastUtils::sidebarFooter()
-                )
-              ),
-              
-     ### Create the content ----
-              dashboardBody(
-                tabItems(
-     #### Set up the Overview Page ----
-                  tabItem(
-                    tabName = "overview",
-                    withMathJax(),
-                    h1("Chi-Square Goodness-fit-Test"),
-                    p("In this app you will explore Chi-Square Goodness-fit-Test with simulations.
+      )
+    ),
+    ### Create the sidebar/left navigation menu ----
+    dashboardSidebar(
+      sidebarMenu(
+        id = "pages",
+        menuItem("Overview", tabName = "overview", icon = icon("dashboard")),
+        menuItem("Prerequisites", tabName = "prerequisites", icon = icon("book")),
+        menuItem("Example", tabName = "example", icon = icon("wpexplorer")),
+        menuItem("Explore", tabName = "explore", icon = icon("wpexplorer")),
+        menuItem("References", tabName = "references", icon = icon("leanpub"))
+      ),
+      tags$div(
+        class = "sidebar-logo",
+        boastUtils::sidebarFooter()
+      )
+    ),
+    
+    ### Create the content ----
+    dashboardBody(
+      tabItems(
+        #### Set up the Overview Page ----
+        tabItem(
+          tabName = "overview",
+          withMathJax(),
+          h1("Chi-Square Goodness-fit-Test"),
+          p("In this app you will explore Chi-Square Goodness-fit-Test with simulations.
                         The test is applied when you have categorical variables from a population."),
-                    br(),
-                      
-                  ##### Go Button--location will depend on your goals ----  
-                          div(
-                            style = "text-align: center",
-                              bsButton(inputId = "explore",
-                                       label = "Prerequisites",
-                                       size = "large",
-                                       icon = icon("bolt"),
-                                       style = "default"
-                                       )
-                              ),
-                  ##### Set Acknowledgements Part ----
-                          br(),
-                          br(),
-                          h2("Acknowledgements:"),
-                          p("This app was developed and coded by Jinglin Feng. Special thanks to Alex Chen and Yuxin Zhang for help on some programming issues.",
-                            br(),
-                            'This app was last modified by Anna (Yinqi) Zhang.',
-                            div(class = "updated", "Last Update: 5/26/2021 by ZYD.")
-      )
-     ),
-     #### Set up the Prerequisites Page ----
-     tabItem(
-       tabName = "prerequisites",
-       withMathJax(),
-       h1("Prerequisites"),
-       p("When an analyst attempts to fit a statistical model to observed data, 
+          br(),
+          
+          ##### Go Button--location will depend on your goals ----  
+          div(
+            style = "text-align: center",
+            bsButton(inputId = "explore",
+                     label = "GO",
+                     size = "large",
+                     icon = icon("bolt"),
+                     style = "default"
+            )
+          ),
+          ##### Set Acknowledgements Part ----
+          br(),
+          br(),
+          h2("Acknowledgements:"),
+          p("This app was developed and coded by Jinglin Feng. Special thanks to Alex Chen and Yuxin Zhang for help on some programming issues.",
+            br(),
+            'This app was last modified by Anna (Yinqi) Zhang.',
+            div(class = "updated", "Last Update: 5/26/2021 by ZYD.")
+          )
+        ),
+        #### Set up the Prerequisites Page ----
+        tabItem(
+          tabName = "prerequisites",
+          h1("Prerequisites"),
+          p("When an analyst attempts to fit a statistical model to observed data, 
          he or she may wonder how well the model actually reflects the data. 
          How close are the observed values to those which would be expected under the fitted model? 
          One statistical test that addresses this issue is the chi-square goodness of fit test."),
-       p("If the computed test statistic is large, then the observed and expected 
+         p("If the computed test statistic is large, then the observed and expected 
          values are not close and the model is a poor fit to the data."),
-       box(
-         title = strong("Assumptions:"),
-         status = "primary",
-         collapsible = TRUE,
-         collapsed = TRUE,
-         width = '100%',
-         tags$ul(
-           tags$li("Random samples"),
-           tags$li("Independent observations"),
-           tags$li("The sample size is large enough such that all expected frequencies are greater than 1 
+         box(
+           title = strong("Assumptions:"),
+           status = "primary",
+           collapsible = TRUE,
+           collapsed = TRUE,
+           width = '100%',
+           tags$ul(
+             tags$li("Random samples"),
+             tags$li("Independent observations"),
+             tags$li("The sample size is large enough such that all expected frequencies are greater than 1 
                    and at least 80% are greater than 5.")
-         )
-       ),
-       box(
-         title = strong("Hypotheses:"),
-         status = "primary",
-         collapsible = TRUE,
-         collapsed = FALSE,
-         width = '100%',
+           )
+         ),
+         box(
+           title = strong("Hypotheses:"),
+           status = "primary",
+           collapsible = TRUE,
+           collapsed = FALSE,
+           width = '100%',
+           tags$ul(
+             tags$li("Ho: The observed distribution of the variable matches the expected distribution."),
+             tags$li("HA: The observed distribution of the variable differs from the expected distribution.")
+           )
+         ),
+         box(
+           title = strong("General Equations:"),
+           status = "primary",
+           collapsible = TRUE,
+           collapsed = FALSE,
+           width = '100%',
+           "Degrees of freedom: number of categories – 1",
+           withMathJax(helpText('$$X^2 = \\sum\\frac{(observed-expected)^2}{expected}$$'))
+         ),
+         h2("Instructions:"),
          tags$ul(
-           tags$li("Ho: The observed distribution of the variable matches the expected distribution."),
-           tags$li("HA: The observed distribution of the variable differs from the expected distribution.")
+           tags$li("Select one of the scenarios for the proportion in each category (Equal Probabilities or Different Probabilities)."),
+           tags$li("Move the sliders to change the values of number of observations, number of categories and number of simulations."),
+           tags$li("A p-value is calculated and plotted for each simulation. You can click a p-value on the plot to see the summary table for that dataset."),
+           tags$li("When there are more than 50 simulations, only a histogram of p-values is shown."),
+           tags$li("Click the ", 
+                   tags$strong("link on the bottom-left "),
+                   "if you have your own data and null hypothesis to explore.")
          )
-       ),
-       box(
-         title = strong("General Equations:"),
-         status = "primary",
-         collapsible = TRUE,
-         collapsed = FALSE,
-         width = '100%',
-         "Degrees of freedom: number of categories – 1",
-         withMathJax(helpText('$$X^2 = \\sum\\frac{(observed-expected)^2}{expected}$$'))
-       ),
-       h2("Instructions:"),
-       tags$ul(
-         tags$li("Select one of the scenarios for the proportion in each category (Equal Probabilities or Different Probabilities)."),
-         tags$li("Move the sliders to change the values of number of observations, number of categories and number of simulations."),
-         tags$li("A p-value is calculated and plotted for each simulation. You can click a p-value on the plot to see the summary table for that dataset."),
-         tags$li("When there are more than 50 simulations, only a histogram of p-values is shown."),
-         tags$li("Click the ", 
-                 tags$strong("link on the bottom-below "),
-                 "if you have your own data and null hypothesis to explore.")
-       ),
-       div(style = "text-align: left" ,
-           bsButton("testPrerequisites", tags$strong("Click here if you have real data to test"), 
-                    icon = icon("hand-o-right"), 
-                    size = "large", 
-                    style = "link"))
-       
-     ), 
-     
-     #### Set up the Example Page ----
+        ), 
+        
+        #### Set up the Example Page ----
         #Define the content contained within part 1 ie. tabname "first"
-                  tabItem(tabName = "example",
-                          withMathJax(),
-                          div(style = "display: inline-block;vertical-align:top;"),
-                          fluidRow(
-                            column(4,
-                                   h3("Introduction:"),
-                                   box(width = "10.5%",background = "orange",
-                                      "Use the sliders below for simulating example data from either an equiprobable or different probability null (one p-value calculated for each simulation). Hit the Link below if you have your own data and hypothesis to examine."),
-                                   
-                                   tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #FF5733}")),
-                                   tags$style(HTML(".js-irs-1 .irs-single, .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {background: #FF5733}")),
-                                   tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #FF5733}")),
-                              
-                                   radioButtons("random", "Proportion in each category", choices = c("Null with equal probabilities", "Null with different probabilities")),
-                                   
-                                   sliderInput("n", "Sample Size:", min = 200, max = 2000, value = 1100 ,
-                                               step = 1),
-                                   bsPopover("n", "", "Number of Observations", place="right"),
-                                   
-                                   sliderInput("n2", "The number of Categories:", min = 2, max = 8, value = 5 ,
-                                               step = 1) ,
-                                   
-                                   bsPopover("n2", "", "Number of Categories", place="right"),
-                                   
-                                   sliderInput("n3", "The number of Simulations:", min = 1, max = 1000, value = 5 ,
-                                               step = 1),
-                                   
-                                   bsPopover("n3", "", "For the first 50 simulations, you will see a p-value scatterplot; For the number of simulations greater than 50, you will see a histogram of p-values.", place="right", options = list(container = "body")),
-                                   
-                                   div(style = "text-align: left" ,
-                                       bsButton("test", tags$strong("Click here if you have real data to test"), 
-                                            icon = icon("hand-o-right"), 
-                                            size = "large", 
-                                            style = "link")),
-                                   
-                                   
-                                   conditionalPanel(
-                                   
-                                   condition = "input.n3 <= 50",
-                                   textOutput("hint"),
-                                   tags$head(tags$style("#hint{color: #FF5733 ;
+        tabItem(tabName = "example",
+                div(style = "display: inline-block;vertical-align:top;"),
+                fluidRow(
+                  withMathJax(),
+                  column(4,
+                         h3("Introduction:"),
+                         box(width = "10.5%",background = "orange",
+                             "Use the sliders below for simulating example data from either an equiprobable or different probability null (one p-value calculated for each simulation). Hit the Link below if you have your own data and hypothesis to examine."),
+                         
+                         tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #FF5733}")),
+                         tags$style(HTML(".js-irs-1 .irs-single, .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {background: #FF5733}")),
+                         tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #FF5733}")),
+                         
+                         radioButtons("random", "Proportion in each category", choices = c("Null with equal probabilities", "Null with different probabilities")),
+                         
+                         sliderInput("n", "Sample Size:", min = 200, max = 2000, value = 1100 ,
+                                     step = 1),
+                         bsPopover("n", "", "Number of Observations", place="right"),
+                         
+                         sliderInput("n2", "The number of Categories:", min = 2, max = 8, value = 5 ,
+                                     step = 1) ,
+                         
+                         bsPopover("n2", "", "Number of Categories", place="right"),
+                         
+                         sliderInput("n3", "The number of Simulations:", min = 1, max = 1000, value = 5 ,
+                                     step = 1),
+                         
+                         bsPopover("n3", "", "For the first 50 simulations, you will see a p-value scatterplot; For the number of simulations greater than 50, you will see a histogram of p-values.", place="right", options = list(container = "body")),
+                         
+                         div(style = "text-align: left" ,bsButton("test", tags$strong("Click here if you have real data to test"), icon("hand-o-right"), size = "large", style = "link")),
+                         
+                         
+                         conditionalPanel(
+                           
+                           condition="input.n3 <= 50",
+                           #tags$img(src = "arrow.gif", width="15%", style="display: block; margin-left: 115px; margin-right: 4px;"),
+                           
+                           textOutput("hint"),
+                           tags$head(tags$style("#hint{color: #FF5733 ;
                                                         font-size: 18px;
+                                                        
+                                                        
                                                         }"
-                                                          ))
-                                   )
-                                   
-                                   ),
-                          
-                                 h3("Table and Plot:"),
-                                 column(7,align="center",
-                                        
-                                 conditionalPanel(condition = "input.random == 'Null with equal probabilities'",
-                                                  tableOutput("values2"),
-                                                  bsPopover("values2","","An example of a summary table of population values", placement = "bottom", options = list(container = "body")),
-                                   
-                                       conditionalPanel(condition = "input.random == 'Null with equal probabilities'",             
-                                                  plotOutput("plot2", width = '90%', click = "plot_click"),
-                                                  bsPopover("plot2","","For the number of simulations less than or equal to 50, click a point on the scatterplot to see the table behind it; For the number of simulations greater than 50, you will see a histogram of p-values. The red line denotes the uniform density of p-values under the null",  
-                                                            place = "bottom", options = list(container = "body")),
-                                                  tableOutput("plot_clickedpoints"), 
-                                                  bsPopover("plot_clickedpoints","","An example of a summary table of sample values", placement = "right", options = list(container = "body")),
-                                                  htmlOutput("text2", class = "text-center")
-                                                  
-                          ))),
-                          
-                          column(7,align = "center",
-                                 
-                                 conditionalPanel(condition = "input.random == 'Null with different probabilities'",
-                                                  tableOutput("values1"),
-                                                  bsPopover("values1","","An example of a summary table of population values", placement = "bottom", options = list(container = "body")),
-                                               
-                                                  plotOutput("plot1", width = "90%", click = "plot_click"),
-                                                  bsPopover("plot1","","For the number of simulations less than or equal to 50, click a point on the scatterplot to see the table behind it; For the number of simulations greater than 50, you will see a histogram of p-values. The red line denotes the uniform density of p-values under the null )", place="right", options = list(container = "body")),
-                                                 
-                                                  tableOutput("plot_clickedpoints2"), 
-                                                        bsPopover("plot_clickedpoints2","","An example of a summary table of sample values", placement = "right", options = list(container = "body")),
-                                                        htmlOutput("text1", class = "text-center")))                 
-                                       )
-                            ),
-     #### Set up the Explore Page ----
-                  tabItem(tabName = "explore",
-                          withMathJax(),
-                          div(style = "display: inline-block;vertical-align:top;"),
-                          fluidRow(
-                            #column of length 12 which is the whole width
-                            #I include everthing in a column though because this way there are margins and it looks better
-                            column(4,
-                                   
-                                   
-                                   textInput("names",h4(tags$strong("Level Names")),
-                                             ""),
-                                   br(),
-                                   
-                                   textInput("nulls",h4(tags$strong("Null Probabilities")),
-                                             ""),
-                                   bsPopover(id = 'nulls', title = 'Prob Info', content = 'All the null probabilities should add up to 1. For example, if there are four levels, the null probabilities could be 0.2, 0.2, 0.3, 0.3'),
-                                   br(),
-                                   
-                                   textInput("obs",h4(tags$strong("Observed Counts")),
-                                             ""),
-                                   bsPopover(id = 'obs', title = 'Observation Info', content = 'The observed counts entered should have the same levels as the null probabilities. For example, if the null probabilities are 0.25, 0.3, 0.2, and 0.25, the observed counts entered could be 13, 24, 4, and 10'), 
-                                   br(), 
-                                   
-                                   numericInput("sims",h4(tags$strong("Number of simulations from null model")),1,min = 0,step = 1),
-                                   br(),
-                                   actionButton("resample",h4(tags$div(tags$strong("Simulate Now")))),
-                                   conditionalPanel(
-                                     condition = "(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
-                                     actionButton("reset",h4(tags$div(tags$strong("Start Over"))))
-                                   )
-                                   
-                            ),
-                            
-                            column(8,
-                                   conditionalPanel(
-                                     condition = "input.resample == 0 || output.totalPrev == output.total",
-                                     plotOutput("barGraphInitial"),
-                                     p(textOutput("remarksInitial")),
-                                     tags$head(tags$style("#remarksInitial{color: black ;
+                           ))
+                         )
+                         
+                  ),
+                  
+                  h3("Table and Plot:"),
+                  column(7,align="center",
+                         
+                         conditionalPanel(condition = "input.random == 'Null with equal probabilities'",
+                                          tableOutput("values2"),
+                                          bsPopover("values2","","An example of a summary table of population values", placement = "bottom", options = list(container = "body")),
+                                          
+                                          conditionalPanel(condition = "input.random == 'Null with equal probabilities'",             
+                                                           plotOutput("plot2", width = '90%', click = "plot_click"),
+                                                           bsPopover("plot2","","For the number of simulations less than or equal to 50, click a point on the scatterplot to see the table behind it; For the number of simulations greater than 50, you will see a histogram of p-values. The red line denotes the uniform density of p-values under the null",  
+                                                                     place = "bottom", options = list(container = "body")),
+                                                           tableOutput("plot_clickedpoints"), 
+                                                           bsPopover("plot_clickedpoints","","An example of a summary table of sample values", placement = "right", options = list(container = "body")),
+                                                           htmlOutput("text2", class = "text-center")
+                                                           
+                                          ))),
+                  
+                  column(7,align = "center",
+                         
+                         conditionalPanel(condition = "input.random == 'Null with different probabilities'",
+                                          tableOutput("values1"),
+                                          bsPopover("values1","","An example of a summary table of population values", placement = "bottom", options = list(container = "body")),
+                                          
+                                          plotOutput("plot1", width = "90%", click = "plot_click"),
+                                          bsPopover("plot1","","For the number of simulations less than or equal to 50, click a point on the scatterplot to see the table behind it; For the number of simulations greater than 50, you will see a histogram of p-values. The red line denotes the uniform density of p-values under the null )", place="right", options = list(container = "body")),
+                                          
+                                          tableOutput("plot_clickedpoints2"), 
+                                          bsPopover("plot_clickedpoints2","","An example of a summary table of sample values", placement = "right", options = list(container = "body")),
+                                          htmlOutput("text1", class = "text-center")))                 
+                )
+                
+                
+                
+                
+                
+                
+        ),
+        #### Set up the Explore Page ----
+        tabItem(tabName = "explore",
+                div(style="display: inline-block;vertical-align:top;"),
+                fluidRow(
+                  #column of length 12 which is the whole width
+                  #I include everthing in a column though because this way there are margins and it looks better
+                  column(4,
+                         
+                         
+                         textInput("names",h4(tags$strong("Level Names")),
+                                   ""),
+                         br(),
+                         
+                         textInput("nulls",h4(tags$strong("Null Probabilities")),
+                                   ""),
+                         bsPopover(id = 'nulls', title = 'Prob Info', content = 'All the null probabilities should add up to 1. For example, if there are four levels, the null probabilities could be 0.2, 0.2, 0.3, 0.3'),
+                         br(),
+                         
+                         textInput("obs",h4(tags$strong("Observed Counts")),
+                                   ""),
+                         bsPopover(id = 'obs', title = 'Observation Info', content = 'The observed counts entered should have the same levels as the null probabilities. For example, if the null probabilities are 0.25, 0.3, 0.2, and 0.25, the observed counts entered could be 13, 24, 4, and 10'), 
+                         br(), 
+                         
+                         numericInput("sims",h4(tags$strong("Number of simulations from null model")),1,min=0,step=1),
+                         br(),
+                         actionButton("resample",h4(tags$div(tags$strong("Simulate Now")))),
+                         conditionalPanel(
+                           condition="(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
+                           actionButton("reset",h4(tags$div(tags$strong("Start Over"))))
+                         )
+                         
+                  ),
+                  
+                  column(8,
+                         conditionalPanel(
+                           condition="input.resample == 0 || output.totalPrev == output.total",
+                           plotOutput("barGraphInitial"),
+                           p(textOutput("remarksInitial")),
+                           tags$head(tags$style("#remarksInitial{color: black ;
                                                           font-size: 17px;
                                                           }"
-                                                          )),
-                                     tableOutput("obsTable"),
-                                     tags$head(tags$style("#obsTable{color: black ;
+                           )),
+                           tableOutput("obsTable"),
+                           tags$head(tags$style("#obsTable{color: black ;
                                                           font-size: 16px;
                                                           }"
-                                                          ))
-                                     ),
-                                   
-                                   conditionalPanel(
-                                     condition = "(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
-                                     tabsetPanel(
-                                       tabPanel(h5(tags$div(tags$strong("Latest Simulation"),style = "color:purple" )),
-                                                plotOutput("barGraphLatest"),
-                                                bsPopover("barGraphLatest", "", "This plot shows you the comparison of latest resample data verse actual data", placement = "left", options = list(container = "body")),
-                                                p(textOutput("remarksLatest1")),
-                                                tags$head(tags$style("#remarksLatest1{color: black ;
+                           ))
+                         ),
+                         
+                         conditionalPanel(
+                           condition="(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
+                           tabsetPanel(
+                             tabPanel(h5(tags$div(tags$strong("Latest Simulation"),style = "color:white" )),
+                                      plotOutput("barGraphLatest"),
+                                      bsPopover("barGraphLatest", "", "This plot shows you the comparison of latest resample data verse actual data", placement = "left", options = list(container="body")),
+                                      p(textOutput("remarksLatest1")),
+                                      tags$head(tags$style("#remarksLatest1{color: black ;
                                                                      font-size: 17px;
                                                                      }"
-                                                          )),
-                                                tableOutput("summary1"),
-                                                tags$head(tags$style("#summary1{color: black ;
+                                      )),
+                                      tableOutput("summary1"),
+                                      tags$head(tags$style("#summary1{color: black ;
                                                                      font-size: 16px;
                                                                      }"
-                                                          ))), 
-                                       
-                                       tabPanel(h5(tags$div(tags$strong("Simulated p-values plot"),style = "color:purple" )),
-                                                plotOutput("pvalueplot",height=400,width=630)),                                                                                                                                                                                                                                                                                     
-                                       
-                                       
-                                       tabPanel(h5(tags$div(tags$strong("
-                                                                        Comparsion to null distribution "), style = "color:purple" )),
-                                                plotOutput("chisqCurve"),
-                                                br(),
-                                                conditionalPanel(
-                                                  
-                                                  condition="input.sims <= 5",
-                                                  p(textOutput("remarksProb2")),
-                                                  tags$head(tags$style("#remarksProb2{color: #FF5733 ;
+                                      ))), 
+                             
+                             tabPanel(h5(tags$div(tags$strong("Simulated p-values plot"),style = "color:white" )),
+                                      plotOutput("pvalueplot",height=400,width=630)),                                                                                                                                                                                                                                                                                     
+                             
+                             
+                             tabPanel(h5(tags$div(tags$strong("
+                                                                        Comparsion to null distribution "), style = "color:white" )),
+                                      plotOutput("chisqCurve"),
+                                      br(),
+                                      conditionalPanel(
+                                        
+                                        condition="input.sims <= 5",
+                                        p(textOutput("remarksProb2")),
+                                        tags$head(tags$style("#remarksProb2{color: #FF5733 ;
                                                                        font-size: 18.5px;
                                                                        font-style: italic;
                                                                        }"
-                                                          ))),
-                                                
-                                                conditionalPanel(
-                                                  
-                                                  condition="input.sims > 5",
-                                                  p(textOutput("remarksProb")),
-                                                  tags$head(tags$style("#remarksProb{color: #FF5733 ;
+                                        ))),
+                                      
+                                      conditionalPanel(
+                                        
+                                        condition="input.sims > 5",
+                                        p(textOutput("remarksProb")),
+                                        tags$head(tags$style("#remarksProb{color: #FF5733 ;
                                                                        font-size: 18.5px;
                                                                        font-style: italic;
                                                                        }"
-                                                          )))
-                                                
-                                                  ))),
-                                   
-                                   
-                                   
-                                   id="myPanel"
-                                                  )
-                                                  )),
-     #### Set up the References Page ----
-     tabItem(
-       tabName = "references",
-       withMathJax(),
-       h2("References"),
-       p(
-         class = "hangingindent",
-         "Bailey, E. (2015). shinyBS: Twitter bootstrap components for shiny.
+                                        )))
+                                      
+                             ))),
+                         
+                         
+                         
+                         id="myPanel"
+                  )
+                )),
+        #### Set up the References Page ----
+        tabItem(
+          tabName = "references",
+          withMathJax(),
+          h2("References"),
+          p("You'll need to fill in this page with all of the appropriate
+            references for your app."),
+          p(
+            class = "hangingindent",
+            "Bailey, E. (2015). shinyBS: Twitter bootstrap components for shiny.
             (v0.61). [R package]. Available from
             https://CRAN.R-project.org/package=shinyBS"
-       ),
-       br(),
-       br(),
-       br(),
-       boastUtils::copyrightInfo()
+          ),
+          br(),
+          br(),
+          br(),
+          boastUtils::copyrightInfo()
+        )
       )
-     )
-   )
- ) 
+    )
+  ) 
 )
 # Define server logic ----
 server <- function(input, output, session) {
@@ -360,10 +360,10 @@ server <- function(input, output, session) {
     updateTabItems(session, "pages", "explore")
   })
   
-  observeEvent(input$testPrerequisites, {
-    
-    updateTabItems(session, "pages", "explore")
+  observeEvent(input$bsButton4, {
+    updateTabItems(session, 'game', 'fib')
   })
+  
   #For Random 
   firstdata<-reactive({
     num_of_samples = input$n
@@ -1039,12 +1039,11 @@ server <- function(input, output, session) {
            " The shaded area gives the approximate probability of getting a chi-square statistic of ",
            round(obs,2)," or more, if the probability of each outcome is under Null probabilities (i.e. the p-value ).")
   })
-
+  
 }
 
 # Boast App Call ----
 boastUtils::boastApp(ui = ui, server = server)
 
-                  
-            
-    
+
+
