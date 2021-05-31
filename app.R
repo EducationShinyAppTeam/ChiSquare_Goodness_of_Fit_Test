@@ -3,8 +3,8 @@ library(shiny)
 library(shinydashboard)
 library(shinyBS)
 library(shinyWidgets)
-library(boastUtils)
 library(shinyjs)
+library(boastUtils)
 library(ggplot2)
 
 # Load additional dependencies and setup functions
@@ -14,7 +14,7 @@ library(ggplot2)
 ui <- list(
   ## Create the app page ----
   dashboardPage(
-    skin = "purple",
+    skin = "yellow",
     ### Create the app header ----
     dashboardHeader(
       title = "Chi-Square Goodness-fit-Test and Simulation",
@@ -57,13 +57,30 @@ ui <- list(
           ##### Go Button--location will depend on your goals ----
           div(
             style = "text-align: center",
-            bsButton(inputId = "explore",
+            bsButton(inputId = "overviewBottom",
                      label = "Prerequisites",
                      size = "large",
                      icon = icon("bolt"),
                      style = "default"
             )
           ),
+          
+          h2("Instructions:"),
+          tags$ul(
+            tags$li("Select one of the scenarios for the proportion in each category (Equal Probabilities or Different Probabilities)."),
+            tags$li("Move the sliders to change the values of number of observations, number of categories and number of simulations."),
+            tags$li("A p-value is calculated and plotted for each simulation. You can click a p-value on the plot to see the summary table for that dataset."),
+            tags$li("When there are more than 50 simulations, only a histogram of p-values is shown."),
+            tags$li("Click the ",
+                    tags$strong("link on the bottom-below "),
+                    "if you have your own data and null hypothesis to explore.")
+          ),
+          div(style = "text-align: left" ,
+              bsButton("prerequisitesBottom", tags$strong("Click here if you have real data to test"),
+                       icon = icon("hand-o-right"),
+                       size = "large",
+                       style = "link")),
+  
           ##### Set Acknowledgements Part ----
           br(),
           br(),
@@ -80,24 +97,10 @@ ui <- list(
           withMathJax(),
           h1("Prerequisites"),
           p("When an analyst attempts to fit a statistical model to observed data,
-         he or she may wonder how well the model actually reflects the data.
-         How close are the observed values to those which would be expected under the fitted model?
-         One statistical test that addresses this issue is the chi-square goodness of fit test."),
+         they may wonder how close are the observed values to those which would be expected.
+         One statistical test that addresses this issue for categorical data is the chi-square goodness-of-fit test."),
          p("If the computed test statistic is large, then the observed and expected
          values are not close and the model is a poor fit to the data."),
-         box(
-           title = strong("Assumptions:"),
-           status = "primary",
-           collapsible = TRUE,
-           collapsed = TRUE,
-           width = '100%',
-           tags$ul(
-             tags$li("Random samples"),
-             tags$li("Independent observations"),
-             tags$li("The sample size is large enough such that all expected frequencies are greater than 1
-                   and at least 80% are greater than 5.")
-           )
-         ),
          box(
            title = strong("Hypotheses:"),
            status = "primary",
@@ -105,34 +108,20 @@ ui <- list(
            collapsed = FALSE,
            width = '100%',
            tags$ul(
-             tags$li("Ho: The observed distribution of the variable matches the expected distribution."),
-             tags$li("HA: The observed distribution of the variable differs from the expected distribution.")
+             tags$li("Null: The observed distribution of the variable follows the expected distribution."),
+             tags$li("Alternative: The observed distribution of the variable differs from the expected distribution.")
            )
          ),
          box(
-           title = strong("General Equations:"),
+           title = strong("Form of Satistics:"),
            status = "primary",
            collapsible = TRUE,
            collapsed = FALSE,
            width = '100%',
-           "Degrees of freedom: number of categories – 1",
+           "For large sample, this follows the chi-square distribution with degrees of freedom: number of categories - 1.
+            Alternatively, the distribution may be simulated for any size samples.",
            withMathJax(helpText('$$X^2 = \\sum\\frac{(observed-expected)^2}{expected}$$'))
-         ),
-         h2("Instructions:"),
-         tags$ul(
-           tags$li("Select one of the scenarios for the proportion in each category (Equal Probabilities or Different Probabilities)."),
-           tags$li("Move the sliders to change the values of number of observations, number of categories and number of simulations."),
-           tags$li("A p-value is calculated and plotted for each simulation. You can click a p-value on the plot to see the summary table for that dataset."),
-           tags$li("When there are more than 50 simulations, only a histogram of p-values is shown."),
-           tags$li("Click the ",
-                   tags$strong("link on the bottom-below "),
-                   "if you have your own data and null hypothesis to explore.")
-         ),
-         div(style = "text-align: left" ,
-             bsButton("testPrerequisites", tags$strong("Click here if you have real data to test"),
-                      icon = icon("hand-o-right"),
-                      size = "large",
-                      style = "link"))
+         )
 
         ),
 
@@ -152,42 +141,26 @@ ui <- list(
                          tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #FF5733}")),
 
                          radioButtons("random", "Proportion in each category", choices = c("Null with equal probabilities", "Null with different probabilities")),
-
-                         sliderInput("n", "Sample Size:", min = 200, max = 2000, value = 1100 ,
-                                     step = 1),
+                         
+                         sliderInput("n", "Sample Size:", min = 200, max = 2000, value = 1100, step = 1),
                          bsPopover("n", "", "Number of Observations", place="right"),
-
-                         sliderInput("n2", "The number of Categories:", min = 2, max = 8, value = 5 ,
-                                     step = 1) ,
-
+                         sliderInput("n2", "The number of Categories:", min = 2, max = 8, value = 5 , step = 1) ,
                          bsPopover("n2", "", "Number of Categories", place="right"),
-
-                         sliderInput("n3", "The number of Simulations:", min = 1, max = 1000, value = 5 ,
-                                     step = 1),
-
+                         sliderInput("n3", "The number of Simulations:", min = 1, max = 1000, value = 5 , step = 1),
                          bsPopover("n3", "", "For the first 50 simulations, you will see a p-value scatterplot; For the number of simulations greater than 50, you will see a histogram of p-values.", place="right", options = list(container = "body")),
 
                          div(style = "text-align: left" ,
-                             bsButton("test", tags$strong("Click here if you have real data to test"),
+                             bsButton("exampleBottom", tags$strong("Click here if you have real data to test"),
                                       icon = icon("hand-o-right"),
                                       size = "large",
                                       style = "link")),
 
 
-                         conditionalPanel(
-
-                           condition = "input.n3 <= 50",
-                           textOutput("hint"),
-                           tags$head(tags$style("#hint{color: #FF5733 ;
-                                                        font-size: 18px;
-                                                        }"
-                           ))
-                         )
-
-                  ),
+                         conditionalPanel( condition = "input.n3 <= 50",textOutput("hint"),tags$head(tags$style("#hint{color: #FF5733;font-size: 18px;}")))
+                       ),
 
                   h3("Table and Plot:"),
-                  column(7,align="center",
+                  column(7,align = "center",
 
                          conditionalPanel(condition = "input.random == 'Null with equal probabilities'",
                                           tableOutput("values2"),
@@ -324,12 +297,10 @@ ui <- list(
           tabName = "references",
           withMathJax(),
           h2("References"),
-          p(
-            class = "hangingindent",
-            "Bailey, E. (2015). shinyBS: Twitter bootstrap components for shiny.
+          p("Bailey, E. (2015). shinyBS: Twitter bootstrap components for shiny.
             (v0.61). [R package]. Available from
-            https://CRAN.R-project.org/package=shinyBS"
-          ),
+            https://CRAN.R-project.org/package=shinyBS"),
+          p("Chi-Square Goodness of Fit.” Statistics Online Support, sites.utexas.edu/sos/guided/inferential/categorical/univariate/chi2/."),
           br(),
           br(),
           br(),
@@ -355,16 +326,16 @@ server <- function(input, output, session) {
       }
     )
     #Explore Button ----
-    observeEvent(input$explore, {
-      updateTabItems(session, "pages", "example")
+    observeEvent(input$overviewBottom, {
+      updateTabItems(session, "pages", "prerequisites")
     })
 
-    observeEvent(input$test, {
+    observeEvent(input$exampleBottom, {
 
       updateTabItems(session, "pages", "explore")
     })
 
-    observeEvent(input$testPrerequisites, {
+    observeEvent(input$prerequisitesBottom, {
 
       updateTabItems(session, "pages", "explore")
     })
