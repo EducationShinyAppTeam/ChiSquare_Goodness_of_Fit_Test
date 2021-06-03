@@ -14,7 +14,7 @@ library(ggplot2)
 ui <- list(
   ## Create the app page ----
   dashboardPage(
-    skin = "purple",
+    skin = "yellow",
     ### Create the app header ----
     dashboardHeader(
       title = "Goodness-of-Fit Test",
