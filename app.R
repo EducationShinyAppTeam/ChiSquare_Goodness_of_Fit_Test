@@ -4,10 +4,10 @@ library(shinyBS)
 library(shinydashboard)
 library(shinyjs)
 library(shinyWidgets)
-
+library(boastUtils) # You were missing this
 
 # Load additional dependencies and setup functions
-# source("global.R")
+source("chisqplot.R") # Loads the script to make the chi sq plot.
 
 # Define UI for App ----
 ui <- list(
@@ -19,8 +19,16 @@ ui <- list(
       title = "Goodness-of-Fit Test",
       titleWidth = 250,
       tags$li(class = "dropdown", actionLink("info", icon("info"))),
-      tags$li(class = "dropdown", boastUtils::surveyLink(name = "Chi-Square Goodness-fit-Test and Simulation")),
-      tags$li(class = "dropdown",tags$a(href = 'https://shinyapps.science.psu.edu/',icon("home")))
+      tags$li(
+        class = "dropdown",
+        boastUtils::surveyLink(
+          name = "Chi-Square Goodness-fit-Test and Simulation"
+        )
+      ),
+      tags$li(
+        class = "dropdown",
+        tags$a(href = 'https://shinyapps.science.psu.edu/', icon("home"))
+      )
     ),
     ### Create the sidebar/left navigation menu ----
     dashboardSidebar(
@@ -37,7 +45,6 @@ ui <- list(
         boastUtils::sidebarFooter()
       )
     ),
-
     ### Create the content ----
     dashboardBody(
       tabItems(
@@ -46,11 +53,12 @@ ui <- list(
           tabName = "overview",
           withMathJax(),
           h1("Chi-Square Goodness-fit-Test"),
-          p("In this app you will explore Chi-Square Goodness-fit-Test with simulations.
-                        The test is applied when you have categorical variables from a population."),
+          # Please reformat long lines of code; the line below is an example
+          p("In this app you will explore Chi-Square Goodness-fit-Test with
+            simulations. The test is applied when you have categorical variables
+            from a population."),
           br(),
-
-          h2("Instructions:"),
+          h2("Instructions"),
           tags$ul(
             tags$li("Select one of the scenarios for the proportion in each category (Equal Probabilities or Different Probabilities)."),
             tags$li("Move the sliders to change the values of number of observations, number of categories and number of simulations."),
@@ -90,7 +98,7 @@ ui <- list(
          p("If the computed test statistic is large, then the observed and expected
          values are not close and the model is a poor fit to the data."),
          box(
-           title = strong("Hypotheses:"),
+           title = "Hypotheses", # Remove all instances of strong in titles
            status = "primary",
            collapsible = TRUE,
            collapsed = FALSE,
@@ -101,16 +109,16 @@ ui <- list(
            )
          ),
          box(
-           title = strong("Form of Satistics:"),
+           title = strong("Form of Satistics:"), # Spell check
            status = "primary",
            collapsible = TRUE,
            collapsed = FALSE,
            width = '100%',
-           "For large sample, this follows the chi-square distribution with degrees of freedom: number of categories - 1.
-            Alternatively, the distribution may be simulated for any size samples.",
-           withMathJax(
-             helpText('$$X^2 = \\sum\\frac{(observed-expected)^2}{expected}$$'))
-         ),
+           "For large samples, this follows the chi-square distribution with
+           degrees of freedom: number of categories - 1. Alternatively, the
+           distribution may be simulated for any size samples.
+           \\[X^2 = \\sum\\frac{(observed-expected)^2}{expected}\\]"
+           ),
          div(
            style = "text-align: center",
            bsButton(inputId = "prerequisitesBotton",
@@ -123,59 +131,61 @@ ui <- list(
 
         #### Set up the Example Page ----
         #Define the content contained within part 1 ie. tabname "first"
-        tabItem(tabName = "example",
-                withMathJax(),
-                fluidRow(
-                  column(4,
-                         h3("Introduction:"),
-                         box(
-                           width = "10.5%",
-                           background = "orange",
-                          "Use the sliders below for simulating example data from either an equiprobable or different probability null (one p-value calculated for each simulation). 
+        tabItem(
+          tabName = "example",
+          withMathJax(),
+          # This page needs redesigned/coded
+          fluidRow(
+            column(4,
+                   h3("Introduction:"),
+                   box(
+                     width = "10.5%",
+                     background = "orange",
+                     "Use the sliders below for simulating example data from either an equiprobable or different probability null (one p-value calculated for each simulation).
                            Hit the Link below if you have your own data and hypothesis to examine."),
-                         radioButtons(inputId = "random", 
-                                      label = "Proportion in each category", 
-                                      choices = c("Null with equal probabilities", "Null with different probabilities")),
+                   radioButtons(inputId = "random",
+                                label = "Proportion in each category",
+                                choices = c("Null with equal probabilities", "Null with different probabilities")),
 
-                         sliderInput(inputId = "sampleBar", 
-                                     label = "Sample Size:", 
-                                     min = 200, 
-                                     max = 2000, 
+                   sliderInput(inputId = "sampleBar",
+                               label = "Sample Size:",
+                                     min = 200,
+                                     max = 2000,
                                      value = 1100 ,
                                      step = 1),
-                         bsPopover(id = "sampleBar", 
-                                   title = "", 
-                                   content = "Number of Observations", 
+                         bsPopover(id = "sampleBar",
+                                   title = "",
+                                   content = "Number of Observations",
                                    placement = "right"),
 
-                         sliderInput(inputId = "categoriesBar", 
-                                     label = "The number of Categories:", 
-                                     min = 2, 
-                                     max = 8, 
+                         sliderInput(inputId = "categoriesBar",
+                                     label = "The number of Categories:",
+                                     min = 2,
+                                     max = 8,
                                      value = 5 ,
                                      step = 1) ,
 
-                         bsPopover(id = "categoriesBar", 
-                                   title = "", 
-                                   content = "Number of Categories", 
+                         bsPopover(id = "categoriesBar",
+                                   title = "",
+                                   content = "Number of Categories",
                                    placement = "right"),
 
-                         sliderInput(inputId = "simulationsBar", 
-                                     label = "The number of Simulations:", 
-                                     min = 1, 
-                                     max = 1000, 
+                         sliderInput(inputId = "simulationsBar",
+                                     label = "The number of Simulations:",
+                                     min = 1,
+                                     max = 1000,
                                      value = 5 ,
                                      step = 1),
 
-                         bsPopover(id = "simulationsBar", 
-                                   title = "", 
-                                   content = "For the first 50 simulations, you will see a p-value scatterplot; 
+                         bsPopover(id = "simulationsBar",
+                                   title = "",
+                                   content = "For the first 50 simulations, you will see a p-value scatterplot;
                                               For the number of simulations greater than 50, you will see a histogram of p-values.",
-                                   placement = "right", 
+                                   placement = "right",
                                    options = list(container = "body")),
 
                          div(style = "text-align: left" ,
-                             bsButton(inputId = "exampleBotton", 
+                             bsButton(inputId = "exampleBotton",
                                       tags$strong("Click here if you have real data to test"),
                                       icon = icon("hand-o-right"),
                                       size = "large",
@@ -185,7 +195,7 @@ ui <- list(
                            textOutput("hint"),
                          )
                          ),
-                  
+
                   h3("Table and Plot:"),
                   column(7,align = "center",
                          conditionalPanel(
@@ -194,29 +204,29 @@ ui <- list(
                             bsPopover(
                               id = "equalValues",
                               title = "",
-                              content =  "An example of a summary table of population values", 
-                              placement = "bottom", 
+                              content =  "An example of a summary table of population values",
+                              placement = "bottom",
                               options = list(container = "body")),
                            conditionalPanel(
                              condition = "input.random == 'Null with equal probabilities'",
-                             plotOutput("equalPlot", 
-                                        width = '90%', 
+                             plotOutput("equalPlot",
+                                        width = '90%',
                                         click = "plot_click"),
                              bsPopover(
                                id = "equalPlot",
                                title = "",
                                content = "For the number of simulations less than or equal to 50, click a point on the scatterplot to see the table behind it;
                                           For the number of simulations greater than 50, you will see a histogram of p-values. The red line denotes the uniform density of p-values under the null",
-                               placement = "bottom", 
+                               placement = "bottom",
                                options = list(container = "body")),
                               tableOutput("equalPlotClickedpoints"),
                              bsPopover(
                                id = "equalPlotClickedpoints",
                                title = "",
-                               content = "An example of a summary table of sample values", 
-                               placement = "right", 
+                               content = "An example of a summary table of sample values",
+                               placement = "right",
                                options = list(container = "body")),
-                             htmlOutput("equalText", 
+                             htmlOutput("equalText",
                                         class = "text-center")
                                           ))),
 
@@ -227,123 +237,128 @@ ui <- list(
                            bsPopover(
                              id = "diffValues",
                              title = "",
-                             content = "An example of a summary table of population values", 
-                             placement = "bottom", 
+                             content = "An example of a summary table of population values",
+                             placement = "bottom",
                              options = list(container = "body")),
-                           plotOutput("diffPlot", 
-                                      width = "90%", 
+                           plotOutput("diffPlot",
+                                      width = "90%",
                                       click = "plot_click"),
                            bsPopover(
                              id = "diffPlot",
                              title = "",
-                             content = "For the number of simulations less than or equal to 50, click a point on the scatterplot to see the table behind it; 
+                             content = "For the number of simulations less than or equal to 50, click a point on the scatterplot to see the table behind it;
                                         For the number of simulations greater than 50, you will see a histogram of p-values. The red line denotes the uniform density of p-values under the null )",
-                             placement = "right", 
+                             placement = "right",
                              options = list(container = "body")),
                            tableOutput("diffPlotClickedpoints"),
                            bsPopover(
                              id = "diffPlotClickedpoints",
                              title = "",
                              content = "An example of a summary table of sample values",
-                             placement = "right", 
+                             placement = "right",
                              options = list(container = "body")),
                            htmlOutput("diffText",
                                       class = "text-center")
                            )))
         ),
-        
+
         #### Set up the Explore Page ----
-        tabItem(tabName = "explore",
-                withMathJax(),
-                h1("Explore Your Own Data"),
-                p("You can use this page to explore your own dataset.
+        tabItem(
+          tabName = "explore",
+          withMathJax(),
+          # Use h2 here
+          h1("Explore Your Own Data"),
+          p("You can use this page to explore your own dataset.
                   If you need guidence for each part, put arrow on that box.
                   When you finished, click on Simulate Now to see the plots."),
-                fluidRow(
-                  #column of length 12 which is the whole width
-                  #I include everthing in a column though because this way there are margins and it looks better
-                  column(4,
-                         textInput(inputId = "names",
-                                   h4(tags$strong("Level Names")),
-                                   value = ""),
-                         bsPopover(id = 'names', 
-                                   title = 'Level Info', 
-                                   content = 'Enter level names for each category, seperated by commas ( e.g. A,B,C,D ).'),
-                         br(),
-                         textInput(inputId = "nulls",
-                                   h4(tags$strong("Null Probabilities")),
-                                   value = ""),
-                         bsPopover(id = 'nulls', 
-                                   title = 'Prob Info', 
-                                   content = 'All the null probabilities should add up to 1. For example, if there are four levels, the null probabilities could be 0.2, 0.2, 0.3, 0.3'),
-                         br(),
-                         textInput(inputId = "obs",
-                                   h4(tags$strong("Observed Counts")),
-                                   value = ""),
-                         bsPopover(id = 'obs',
-                                   title = 'Observation Info',
-                                   content = 'The observed counts entered should have the same levels as the null probabilities. For example, if the null probabilities are 0.25, 0.3, 0.2, and 0.25, the observed counts entered could be 13, 24, 4, and 10'),
-                         br(),
-                         numericInput(inputId = "sims",
-                                      h4(tags$strong("Number of simulations from null model")),
-                                      value = 1,
-                                      min = 0,
-                                      step = 1),
-                         br(),
-                         actionButton(inputId = "resample",
-                                      h4(tags$div(tags$strong("Simulate Now")))
-                                      ),
-                         conditionalPanel(
-                           condition = "(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
-                           actionButton(inputId = "reset",
-                                        h4(tags$div(tags$strong("Start Over"))))
-                         )
-                  ),
-                  
-                  column(8,
-                         conditionalPanel(
-                           condition = "input.resample == 0 || output.totalPrev == output.total",
-                           plotOutput("barGraphInitial"),
-                           p(
-                             textOutput("remarksInitial")),
-                             tableOutput("obsTable"),
-                  ),
-                         conditionalPanel(
-                           condition = "(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
-                           tabsetPanel(
-                             tabPanel(h5(tags$div(tags$strong("Latest Simulation"),
-                                                  style = "color:black" )),
-                                      plotOutput("barGraphLatest"),
-                                      bsPopover(id = "barGraphLatest", 
-                                                title = "", 
-                                                content = "This plot shows you the comparison of latest resample data verse actual data", 
-                                                placement = "left", 
-                                                options = list(container = "body")),
-                                      p(textOutput("remarksLatest1")),
-                                      tableOutput("summary1"),
-                                      ),
+          fluidRow(
+            #column of length 12 which is the whole width
+            #I include everthing in a column though because this way there are margins and it looks better
+            column(4,
+                   textInput(
+                     inputId = "names",
+                     label = "Level Names", # NO header tags or strong allowed
+                             value = ""),
+                   bsPopover(id = 'names',
+                             title = 'Level Info',
+                             content = 'Enter level names for each category, seperated by commas ( e.g. A,B,C,D ).'),
+                   br(),
+                   textInput(inputId = "nulls",
+                             h4(tags$strong("Null Probabilities")),
+                             value = ""),
+                   bsPopover(id = 'nulls',
+                             title = 'Prob Info',
+                             content = 'All the null probabilities should add up to 1. For example, if there are four levels, the null probabilities could be 0.2, 0.2, 0.3, 0.3'),
+                   br(),
+                   textInput(inputId = "obs",
+                             h4(tags$strong("Observed Counts")),
+                             value = ""),
+                   bsPopover(id = 'obs',
+                             title = 'Observation Info',
+                             content = 'The observed counts entered should have the same levels as the null probabilities. For example, if the null probabilities are 0.25, 0.3, 0.2, and 0.25, the observed counts entered could be 13, 24, 4, and 10'),
+                   br(),
+                   numericInput(inputId = "sims",
+                                h4(tags$strong("Number of simulations from null model")),
+                                value = 1,
+                                min = 0,
+                                step = 1),
+                   br(),
+                   # This should be bsButton
+                   actionButton(inputId = "resample",
+                                h4(tags$div(tags$strong("Simulate Now")))
+                   ),
+                   # We need to get rid of these conditional panels
+                   conditionalPanel(
+                     condition = "(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
+                     actionButton(inputId = "reset",
+                                  h4(tags$div(tags$strong("Start Over"))))
+                   )
+            ),
 
-                             tabPanel(h5(tags$div(tags$strong("Simulated p-values plot"),
-                                                  style = "color:black" )),
-                                      plotOutput("pvalueplot",
-                                                 height = 400,
-                                                 width = 630)),
-                             tabPanel(h5(tags$div(tags$strong("Comparsion to null distribution "), 
-                                                  style = "color:black" )),
-                                      plotOutput("chisqCurve"),
-                                      br(),
-                                      conditionalPanel(
-                                        condition = "input.sims <= 5",
-                                        p(textOutput("remarksProb2")),
-                                        ),
-                                      conditionalPanel(
-                                        condition = "input.sims > 5",
-                                        p(textOutput("remarksProb")),
-                                        )
-                             ))),
-                         id = "myPanel"))
-                ),
-        
+            column(8,
+                   conditionalPanel(
+                     condition = "input.resample == 0 || output.totalPrev == output.total",
+                     plotOutput("barGraphInitial"),
+                     p(
+                       textOutput("remarksInitial")),
+                     tableOutput("obsTable"),
+                   ),
+                   conditionalPanel(
+                     condition = "(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
+                     tabsetPanel(
+                       tabPanel(h5(tags$div(tags$strong("Latest Simulation"),
+                                            style = "color:black" )),
+                                plotOutput("barGraphLatest"),
+                                bsPopover(id = "barGraphLatest",
+                                          title = "",
+                                          content = "This plot shows you the comparison of latest resample data verse actual data",
+                                          placement = "left",
+                                          options = list(container = "body")),
+                                p(textOutput("remarksLatest1")),
+                                tableOutput("summary1"),
+                       ),
+
+                       tabPanel(h5(tags$div(tags$strong("Simulated p-values plot"),
+                                            style = "color:black" )),
+                                plotOutput("pvalueplot",
+                                           height = 400,
+                                           width = 630)),
+                       tabPanel(h5(tags$div(tags$strong("Comparsion to null distribution "),
+                                            style = "color:black" )),
+                                plotOutput("chisqCurve"),
+                                br(),
+                                conditionalPanel(
+                                  condition = "input.sims <= 5",
+                                  p(textOutput("remarksProb2")),
+                                ),
+                                conditionalPanel(
+                                  condition = "input.sims > 5",
+                                  p(textOutput("remarksProb")),
+                                )
+                       ))),
+                   id = "myPanel"))
+        ),
+
         #### Set up the References Page ----
         tabItem(
           tabName = "references",
@@ -398,28 +413,28 @@ server <- function(input, output, session) {
     )
     #Explore Button ----
     observeEvent(
-      eventExpr = input$overviewBotton, 
+      eventExpr = input$overviewBotton,
       handlerExpr = {
       updateTabItems(
-        session = session, 
-        inputId = "pages", 
+        session = session,
+        inputId = "pages",
         selected = "prerequisites")
     })
     observeEvent(
       eventExpr = input$prerequisitesBotton,
       handlerExpr = {
     updateTabItems(
-      session = session, 
-      inputId = "pages", 
+      session = session,
+      inputId = "pages",
       selected = "example")
   })
 
     observeEvent(
-      eventExpr = input$exampleBotton, 
+      eventExpr = input$exampleBotton,
       handlerExpr = {
       updateTabItems(
-        session = session, 
-        inputId = "pages", 
+        session = session,
+        inputId = "pages",
         selected = "explore")
     })
 
@@ -531,14 +546,14 @@ server <- function(input, output, session) {
              pch = 20,
              col = "#1C2C5B",
              cex = 1.5,
-             font.lab = 2, 
+             font.lab = 2,
              xlab = "Simulation Number",
              ylab = "P-value")
         if (!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01)
           points(x = round(coordinatex),
                  y = d$pp[round(coordinatex)],
                  col = "#FF4500",
-                 pch = 20, 
+                 pch = 20,
                  cex = 2.5)
       }
       else {
@@ -559,16 +574,16 @@ server <- function(input, output, session) {
         plot(d$index,
              d$pp,
              pch = 20,
-             col = "#1C2C5B", 
+             col = "#1C2C5B",
              cex = 1.5,
-             font.lab = 2, 
+             font.lab = 2,
              xlab = "Simulation Number",
              ylab = "P-value")
         if (!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01)
           points(x = round(v$click1$x),
                  y = d$pp[round(v$click1$x)],
                  col = "#FF4500",
-                 pch = 20, 
+                 pch = 20,
                  cex = 2.5)
 
       }
@@ -743,7 +758,7 @@ server <- function(input, output, session) {
       xx[nrow(xx) + 1,] <- c("Total", round(sum(round(rep(num_of_samples/nn,nn),2)),0),"1")
       xx
     })
-    
+
     # For Random
     output$diffValues <- renderTable({
       sliderValues()},
@@ -839,7 +854,8 @@ server <- function(input, output, session) {
         totalCounts <- isolate(sum(obsInput()))
         expCounts <- nullProbs*totalCounts
         reps <- min(simLimit,isolate(input$sims))
-        newSims <- rmultinom(sampleBar = reps, size = totalCounts, prob = nullProbs)
+        # The first argument, n, was misnamed sampleBar
+        newSims <- rmultinom(n = reps, size = totalCounts, prob = nullProbs)
         chisqNew <- colSums(newSims^2/expCounts) - totalCounts
         chisqSims <<- c(chisqSims,chisqNew)
         latestSim <<- newSims[,reps]
@@ -847,7 +863,7 @@ server <- function(input, output, session) {
         total <<- total + reps
 
         hide(id = "setup",anim = T,animType = "slide")
-        
+
         if (total - totalPrev == 1) {
           updateTabsetPanel(session,"myPanel",selected = "Latest Simulation")
         }
@@ -898,7 +914,7 @@ server <- function(input, output, session) {
     })
 
 
-    # needed for the conditional panels to work 
+    # needed for the conditional panels to work
     outputOptions(output, 'total', suspendWhenHidden = FALSE)
 
     output$barGraphInitial <- renderPlot({
@@ -1047,10 +1063,10 @@ server <- function(input, output, session) {
 
     chisqDensities <- reactive({
       input$resample
-      if (length(chisqSims) == 1) band <- 1 
+      if (length(chisqSims) == 1) band <- 1
       else band <- "nrd0"
       density(chisqSims,
-              n = 500, 
+              n = 500,
               from = 0,
               to = xmaxInput(),
               bw = band)
@@ -1083,8 +1099,8 @@ server <- function(input, output, session) {
         latest <- chisqSims[n]
         p.value <- pchisq(chisqSims, length(observed) - 1, lower.tail = FALSE)
         hist(p.value,breaks = 10,
-             main = "P-value Distribution Histogram from the simulations", 
-             xlab = "p-value", 
+             main = "P-value Distribution Histogram from the simulations",
+             xlab = "p-value",
              xlim = c(0,1),
              font.lab = 2)
 
@@ -1117,7 +1133,7 @@ server <- function(input, output, session) {
 
       }
     })
-    
+
     output$remarksProb <- renderText({
       obs <- obschisqInput()
       paste0("The orange curve approximates the true probability distribution of the chi-square statistic based on simulations.",
