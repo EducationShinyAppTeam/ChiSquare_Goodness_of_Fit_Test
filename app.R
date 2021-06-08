@@ -62,7 +62,7 @@ ui <- list(
           ##### Go Button--location will depend on your goals ----
           div(
             style = "text-align: center",
-            bsButton(inputId = "overviewBottom",
+            bsButton(inputId = "overviewBotton",
                      label = "Go to Prerequisites",
                      size = "large",
                      icon = icon("bolt"),
@@ -113,7 +113,7 @@ ui <- list(
          ),
          div(
            style = "text-align: center",
-           bsButton(inputId = "prerequisitesBottom",
+           bsButton(inputId = "prerequisitesBotton",
                     label = "Go",
                     size = "large",
                     icon = icon("bolt"),
@@ -175,7 +175,7 @@ ui <- list(
                                    options = list(container = "body")),
 
                          div(style = "text-align: left" ,
-                             bsButton(inputId = "exampleBottom", 
+                             bsButton(inputId = "exampleBotton", 
                                       tags$strong("Click here if you have real data to test"),
                                       icon = icon("hand-o-right"),
                                       size = "large",
@@ -398,7 +398,7 @@ server <- function(input, output, session) {
     )
     #Explore Button ----
     observeEvent(
-      eventExpr = input$overviewBottom, 
+      eventExpr = input$overviewBotton, 
       handlerExpr = {
       updateTabItems(
         session = session, 
@@ -406,7 +406,7 @@ server <- function(input, output, session) {
         selected = "prerequisites")
     })
     observeEvent(
-      eventExpr = input$prerequisitesBottom,
+      eventExpr = input$prerequisitesBotton,
       handlerExpr = {
     updateTabItems(
       session = session, 
@@ -415,7 +415,7 @@ server <- function(input, output, session) {
   })
 
     observeEvent(
-      eventExpr = input$exampleBottom, 
+      eventExpr = input$exampleBotton, 
       handlerExpr = {
       updateTabItems(
         session = session, 
