@@ -18,7 +18,11 @@ ui <- list(
     dashboardHeader(
       title = "Goodness-of-Fit Test",
       titleWidth = 250,
-      tags$li(class = "dropdown", actionLink("info", icon("info"))),
+      tags$li(
+        class = "dropdown", 
+        actionLink("info", 
+                   icon("info"))
+        ),
       tags$li(
         class = "dropdown",
         boastUtils::surveyLink(
@@ -27,7 +31,8 @@ ui <- list(
       ),
       tags$li(
         class = "dropdown",
-        tags$a(href = 'https://shinyapps.science.psu.edu/', icon("home"))
+        tags$a(href = 'https://shinyapps.science.psu.edu/', 
+               icon("home"))
       )
     ),
     ### Create the sidebar/left navigation menu ----
@@ -54,17 +59,17 @@ ui <- list(
           withMathJax(),
           h1("Chi-Square Goodness-fit-Test"),
           # Please reformat long lines of code; the line below is an example
-          p("In this app you will explore Chi-Square Goodness-fit-Test with
+          p("In this app you will explore the Chi-Square Goodness-fit-Test with
             simulations. The test is applied when you have categorical variables
             from a population."),
           br(),
           h2("Instructions"),
           tags$ul(
             tags$li("Select one of the scenarios for the proportion in each category (Equal Probabilities or Different Probabilities)."),
-            tags$li("Move the sliders to change the values of number of observations, number of categories and number of simulations."),
+            tags$li("Move the sliders to change the values of number of observations, number of categories, and number of simulations."),
             tags$li("A p-value is calculated and plotted for each simulation. You can click a p-value on the plot to see the summary table for that dataset."),
             tags$li("When there are more than 50 simulations, only a histogram of p-values is shown."),
-            tags$li("You can use Explore page to explore your own data and null hypothesis.")
+            tags$li("You can use the Explore page to explore your own data and null hypothesis.")
           ),
           br(),
           ##### Go Button ----
@@ -80,12 +85,11 @@ ui <- list(
           ##### Set Acknowledgements Part ----
           br(),
           br(),
-          h2("Acknowledgements:"),
-          p("This app was developed and coded by Jinglin Feng. 
-            Special thanks to Alex Chen and Yuxin Zhang for help on some programming issues.",
-            br(),
-            'This app was last modified by Anna (Yinqi) Zhang.',
-            div(class = "updated", "Last Update: 5/26/2021 by ZYD.")
+          h2("Acknowledgements"),
+          p("This app was developed and coded by Jinglin Feng. Later modified by Anna (Yinqi) Zhang.
+            Special thanks to Alex Chen, Yuxin Zhang and Dr. Neil Hatfield for help on some programming issues.
+            The most recent version was updated by Yudan Zhang.",
+            div(class = "updated", "Last Update: 5/26/2021 by YDZ.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -96,8 +100,8 @@ ui <- list(
           p("When an analyst attempts to fit a statistical model to observed data,
          they may wonder how close are the observed values to those which would be expected.
          One statistical test that addresses this issue for categorical data is the chi-square goodness-of-fit test."),
-         p("If the computed test statistic is large, then the observed and expected
-         values are not close and the model is a poor fit to the data."),
+         p("If the observed and expected values are not close, 
+           then the computed test statistic is large and the model is a poor fit to the data."),
   
          box(
            title = strong("Hypotheses"), # Remove all instances of strong in titles
@@ -106,8 +110,8 @@ ui <- list(
            collapsed = FALSE,
            width = '100%',
            tags$ul(
-             tags$li("Null: The observed distribution of the variable follows the expected distribution."),
-             tags$li("Alternative: The observed distribution of the variable differs from the expected distribution.")
+             tags$li("Null: The distribution of the variable follows the expected distribution."),
+             tags$li("Alternative: The distribution of the variable differs from the expected distribution.")
            )
          ),
          
@@ -117,10 +121,11 @@ ui <- list(
            collapsible = TRUE,
            collapsed = FALSE,
            width = '100%',
-           "For large samples, this follows the chi-square distribution with
+           "The statistics has this form 
+           \\[X^2 = \\sum\\frac{(observed-expected)^2}{expected}\\]
+           For large samples, this follows the chi-square distribution with
            degrees of freedom: number of categories - 1. Alternatively, the
-           distribution may be simulated for any size samples.
-           \\[X^2 = \\sum\\frac{(observed-expected)^2}{expected}\\]"
+           distribution may be simulated for any size samples."
            ),
          
          # Go Bottom: 
@@ -144,17 +149,9 @@ ui <- list(
           h2("Introduction"),
           p("Use the sliders below for simulating example data from either an equiprobable or different probability null 
              (one p-value calculated for each simulation). 
-            The number of simulations less or greater than 50 will effect the type of p-value plot. 
-            Try different number of simulations to see the change of plot type and read the captions below the sliders for more interpretation of the plot.
-            Hit the Link below if you have your own data and hypothesis to explore."),
-          
-          ##### Button leads to the Explore page ---- 
-          div(style = "text-align: left" ,
-              bsButton(inputId = "exampleBotton",
-                       tags$strong("Click here to explore your own data"),
-                       icon = icon("hand-o-right"),
-                       size = "large",
-                       style = "link")),
+            Try different number of simulations to see how the distribution of p-value will behave, 
+            and read the captions below the sliders for more interpretation of the plot.
+            Go to Explore page if you have your own data and hypothesis to explore."),
           br(),
           
           ##### sideBar on the left ----
@@ -171,21 +168,21 @@ ui <- list(
                                ),
                 
                    sliderInput(inputId = "sampleBar",
-                               label = "Sample Size",
+                               label = "Sample size",
                                      min = 200,
                                      max = 2000,
                                      value = 1100 ,
                                      step = 1),
 
                          sliderInput(inputId = "categoriesBar",
-                                     label = "The number of Categories",
+                                     label = "Number of categories",
                                      min = 2,
                                      max = 8,
                                      value = 5 ,
                                      step = 1) ,
 
                          sliderInput(inputId = "simulationsBar",
-                                     label = "The number of Simulations",
+                                     label = "Number of simulations",
                                      min = 1,
                                      max = 1000,
                                      value = 5 ,
@@ -253,7 +250,7 @@ ui <- list(
           withMathJax(),
           # Use h2 here
           h2("Explore Your Own Data"),
-          p("You can use this page to explore your own dataset.
+          p("You can use this page to see the behavior of distribution of the chi-square statistic for your data.
                   If you need guidence for each part, put arrow on that box.
                   When you finished, click on Simulate Now to see the plots."),
           fluidRow(
@@ -265,38 +262,35 @@ ui <- list(
                    wellPanel(
                      align = "left",
                    textInput(inputId = "names",
-                             label = tags$strong("Level Names"), 
+                             label = HTML("Level names", 
+                                          as.character(
+                                            actionLink(inputId = "namesPopover", 
+                                                       label = "", 
+                                                       icon = icon("info")))),
                              value = ""),
-                   bsPopover(id = 'names',
-                             title = 'Level Info',
-                             content = 'Enter level names for each category, seperated by commas ( e.g. A,B,C,D ).'),
-                   br(),
+                   
                    textInput(inputId = "nulls",
-                             label =  tags$strong("Null Probabilities"),
+                             label =  HTML("Null probabilities",
+                                           as.character(
+                                             actionLink(inputId = "nullsPopover", 
+                                                        label = "", 
+                                                        icon = icon("info")))),
                              value = ""),
-                   bsPopover(id = 'nulls',
-                             title = 'Prob Info',
-                             content = 'All the null probabilities should add up to 1. For example, if there are four levels, the null probabilities could be 0.2, 0.2, 0.3, 0.3'),
-                   br(),
+                   
                    textInput(inputId = "obs",
-                             label = tags$strong("Observed Counts"),
+                             label = HTML("Observed counts",
+                                          as.character(
+                                            actionLink(inputId = "obsPopover", 
+                                                       label = "", 
+                                                       icon = icon("info")))),
                              value = ""),
-                   bsPopover(id = 'obs',
-                             title = 'Observation Info',
-                             content = 'The observed counts entered should have the same levels as the null probabilities. For example, if the null probabilities are 0.25, 0.3, 0.2, and 0.25, the observed counts entered could be 13, 24, 4, and 10'),
-                   br(),
+                   
                    sliderInput(inputId = "sims",
-                               label = tags$strong("Additional Number of simulations from null model"),
+                               label = "Additional number of simulations from null model",
                                min = 50,
                                max = 5000,
                                value = 100,
                                step = NULL),
-                   
-                    #numericInput(inputId = "sims",
-                                  #label = tags$strong("Number of simulations from null model"),
-                                  #value = 1,
-                                  #min = 0,
-                                  #step = 1),
                    br(),
                    
                    ##### resample & reset Bottons ----
@@ -360,10 +354,10 @@ ui <- list(
                                 br(),
                                 
                                 # no. of simulation:
-                                conditionalPanel(
-                                  condition = "input.sims <= 5",
-                                  p(textOutput("remarksProb2")),
-                                ),
+                                # conditionalPanel(
+                                #  condition = "input.sims <= 5",
+                                # p(textOutput("remarksProb2")),
+                                # ),
                                 
                                 conditionalPanel(
                                   condition = "input.sims > 5",
@@ -379,33 +373,33 @@ ui <- list(
           tabName = "references",
           withMathJax(),
           h2("References"),
-          p( # shinyjs
-            class = "hangingindent",
-            "Attali, Dean. (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds (v2.0.0). [R package]. Available from https://CRAN.R-project.org/package=shinyjs"
-          ),
           p( # shinyBS
             class = "hangingindent",
-            "Bailey, E. (2015). shinyBS: Twitter bootstrap components for shiny.(v0.6.1). [R package]. Available from https://CRAN.R-project.org/package=shinyBS"
+            "Bailey, E. (2015). shinyBS: Twitter Bootstrap Components for Shiny. R package version 0.61. Available from https://CRAN.R-project.org/package=shinyBS"
           ),
           p( # boastUtils
             class = "hangingindent",
-            "Carey, R. (2019), boastUtils: BOAST Utilities, R Package. Available from https://github.com/EducationShinyAppTeam/boastUtils"
+            "Carey, R. and Hatfield, N. (2020). boastUtils: BOAST Utilities. R package version 0.1.6.3. Available from https://github.com/EducationShinyAppTeam/boastUtils"
           ),
           p( # shiny
             class = "hangingindent",
-            "Chang W, Cheng J, Allaire J, Xie Y and Mcpherson J (2017). shiny: Web Application Framework for R. R package version 1.0.3"
+            "Chang, W., Cheng, J., Allaire, J., Xie, Y., and McPherson, J. (2020). shiny: Web Application Framework for R. R package version 1.5.0. Available from https://CRAN.R-project.org/package=shiny"
           ),
           p( # shinydashboard
             class = "hangingindent",
-            "Chang W and Borges Ribeiro B (2017). shinydashboard: Create Dashboards with ‘Shiny’. R package version 0.6.1"
+            "Chang, W. and Borges Ribeiro, B. (2018). shinydashboard: Create Dashboards with 'Shiny'. R package version 0.7.1. Available from https://CRAN.R-project.org/package=shinydashboard"
           ),
           p( 
             class = "hangingindent",
             "Chi-Square Goodness of Fit.” Statistics Online Support, sites.utexas.edu/sos/guided/inferential/categorical/univariate/chi2/"
           ),
+          p( # shinyjs
+            class = "hangingindent",
+            "Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 2.0.0. https://CRAN.R-project.org/package=shinyjs"
+          ),
           p( # shinyWidgets
             class = "hangingindent",
-            "Perrier, V., Meyer, F., and Granjon, D. (2020). shinyWidgets: Custom Inputs Widgets for shiny.(v0.5.3). [R package]. Available from https://CRAN.R-project.org/package=shinyWidgets"
+            "Perrier, V., Meyer, F., and Granjon, D. (2020). shinyWidgets: Custom Inputs Widgets for Shiny. R package version 0.5.3. Available from https://CRAN.R-project.org/package=shinyWidgets"
             ),
           br(),
           br(),
@@ -428,11 +422,14 @@ server <- function(input, output, session) {
           session = session,
           type = "info",
           title = "Information",
-          text = "You will explore Chi-Square Goodness-fit-Test with simulations in this app"
+          text = "You will explore Chi-Square Goodness-fit-Test with simulations in this app",
+          btn_colors = "black"
         )
       }
     )
+  
     ### Button on each page
+   # Onverview
     observeEvent(
       eventExpr = input$overviewBotton,
       handlerExpr = {
@@ -441,7 +438,7 @@ server <- function(input, output, session) {
         inputId = "pages",
         selected = "prerequisites")
     })
-  
+    # Prerequisites
     observeEvent(
       eventExpr = input$prerequisitesBotton,
       handlerExpr = {
@@ -450,15 +447,48 @@ server <- function(input, output, session) {
       inputId = "pages",
       selected = "example")
   })
-
+    # Explore
     observeEvent(
-      eventExpr = input$exampleBotton,
+      eventExpr = input$namesPopover,
       handlerExpr = {
-      updateTabItems(
-        session = session,
-        inputId = "pages",
-        selected = "explore")
-    })
+        sendSweetAlert(
+          session = session,
+          type = "info",
+          title = "Level Info",
+          text = "Enter level names for each category, 
+        seperated by commas ( e.g. A,B,C,D ).",
+        btn_colors = "black"
+        )
+      }
+    )
+    observeEvent(
+      eventExpr = input$nullsPopover,
+      handlerExpr = {
+        sendSweetAlert(
+          session = session,
+          type = "info",
+          title = "Prob Info",
+          text = "All the null probabilities should add up to 1. 
+        For example, if there are four levels, 
+        the null probabilities could be 0.2, 0.2, 0.3, 0.3",
+        btn_colors = "black"
+        )
+      }
+    )
+    observeEvent(
+      eventExpr = input$obsPopover,
+      handlerExpr = {
+        sendSweetAlert(
+          session = session,
+          type = "info",
+          title = "Observation Info",
+          text = "The observed counts entered should have the same levels as the null probabilities. 
+        For example, if the null probabilities are 0.25, 0.3, 0.2, and 0.25, 
+        the observed counts entered could be 13, 24, 4, and 10.",
+        btn_colors = "black"
+        )
+      }
+    )
     
     # Example Page ---- 
     ### tableData Set Up ----
@@ -547,13 +577,14 @@ server <- function(input, output, session) {
     
     #### Captions Output ----
     output$hint1 <- renderText({
-    paste0("For the number of simulations less than or equal to 50, the plot of p-value is a scatterplot with no trend. 
+    paste0("For the number of simulations less than or equal to 50, the plot shows the individual p-value of each simulation.
            Click any point on the scatterplot and scroll down to see a more detailed table")
      })
     
     output$hint2 <- renderText({
       paste0("For the number of simulations greater than 50, 
-            the plot of p-value is a histogram. The red line denotes the uniform density of p-values under the null).")
+            the plot shows a histogram of the p-value observed. 
+            The red line denotes the uniform density of p-values under the null).")
     })
     
     ### plotData Set Up ----
@@ -964,12 +995,40 @@ server <- function(input, output, session) {
     })
 
     outputOptions(output, 'totalPrev', suspendWhenHidden = FALSE)
-
     output$total <- reactive({
       simsUpdate() #for dependency
       total
     })
-
+    ###### reset function ----
+    observeEvent(
+      eventExpr = input$reset,
+      handlerExpr = {
+       updateTextInput(
+         session = session,
+         inputId = "names",
+         value = ""
+       )
+        updateTextInput(
+          session = session,
+          inputId = "nulls",
+          value = ""
+        )
+        updateTextInput(
+          session = session,
+          inputId = "obs",
+          value = ""
+        )
+        simsReset()
+      }
+    )
+    
+    ###### return later ----
+    # observeEvent(
+    #   eventExpr = c(input$names,input$nulls,input$obs),
+    #   handlerExpr = {
+    #     simsReset()
+    #   }
+    # )
 
     ###### Hints for Inputs ---- 
     outputOptions(output, 'total', suspendWhenHidden = FALSE)
@@ -1160,7 +1219,7 @@ server <- function(input, output, session) {
       if (sim <= 5) {
         obs <- obschisqInput()
         degFreedom <- dfInput()
-        chisqGraph(bound = obs,
+        chisqGraph(bound = round(obs,3),
                    region = "above",
                    df = degFreedom,
                    xlab = "Chi-Square Values",
@@ -1171,7 +1230,7 @@ server <- function(input, output, session) {
       else{
         obs <- obschisqInput()
         degFreedom <- dfInput()
-        chisqGraph(bound = obs,
+        chisqGraph(bound = round(obs,3),
                    region = "above",
                    df = degFreedom,
                    xlab = "Chi-Square Values",
@@ -1188,18 +1247,20 @@ server <- function(input, output, session) {
       obs <- obschisqInput()
       paste0("The orange curve approximates the true probability distribution of the chi-square statistic based on simulations.",
              " The black curve shows the large sample chi-square density.",
+             " For your last simulation, you get a chi-square statistic of ",
+             round(obs,2),
              " The shaded area gives the approximate probability of getting a chi-square statistic of ",
              round(obs,2),
              " or more, if the probability of each outcome is under Null probabilities (i.e. the p-value ).")
     })
 
-    output$remarksProb2 <- renderText({
-      obs <- obschisqInput()
-      paste0(" The black curve is the large sample chi-square density.",
-             " The shaded area gives the approximate probability of getting a chi-square statistic of ",
-             round(obs,2),
-             " or more, if the probability of each outcome is under Null probabilities (i.e. the p-value ).")
-    })
+   # output$remarksProb2 <- renderText({
+   #  obs <- obschisqInput()
+   #   paste0(" The black curve is the large sample chi-square density.",
+   #          " The shaded area gives the approximate probability of getting a chi-square statistic of ",
+   #         round(obs,2),
+   #         " or more, if the probability of each outcome is under Null probabilities (i.e. the p-value ).")
+   # })
   }
 
 # Boast App Call ----

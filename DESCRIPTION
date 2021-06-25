@@ -1,6 +1,6 @@
 Title: Chi-Square Goodness of Fit Test App
 ShortName: Goodness-of-Fit Test
-Date: 2021-06-06
+Date: 2021-06-25
 Lifecycle: questioning
 Authors@R: c(
     person(given = "Neil", family = "Hatfield", email = "neil.hatfield@psu.edu", role = c("aut", "cre")),
