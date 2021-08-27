@@ -5,6 +5,7 @@ library(shinydashboard)
 library(shinyjs)
 library(shinyWidgets)
 library(boastUtils) 
+# test
 
 # Load additional dependencies and setup functions
 source("chisqplot.R") # Loads the script to make the chi sq plot.
@@ -26,7 +27,7 @@ ui <- list(
       tags$li(
         class = "dropdown",
         boastUtils::surveyLink(
-          name = "Chi-Square Goodness-fit-Test and Simulation"
+          name = "Chi-Square Goodness-of-Fit-Test and Simulation"
         )
       ),
       tags$li(
@@ -584,7 +585,7 @@ server <- function(input, output, session) {
     output$hint2 <- renderText({
       paste0("For the number of simulations greater than 50, 
             the plot shows a histogram of the p-value observed. 
-            The red line denotes the uniform density of p-values under the null).")
+            The red line denotes the uniform density of p-values under the null.")
     })
     
     ### plotData Set Up ----
