@@ -94,9 +94,10 @@ ui <- list(
           br(),
           br(),
           h2("Acknowledgements"),
-          p("This app was developed and coded by Jinglin Feng. Later modified by Anna (Yinqi) Zhang.
-            Special thanks to Alex Chen, Yuxin Zhang and Dr. Neil Hatfield for help on some programming issues.
-            The most recent version was updated by Yudan Zhang.",
+          p("This app was developed and coded by Jinglin Feng. Later modified 
+            by Anna (Yinqi) Zhang. Special thanks to Alex Chen, Yuxin Zhang and 
+            Dr. Neil Hatfield for help on some programming issues. The most 
+            recent version was updated by Yudan Zhang.",
             div(class = "updated", "Last Update: 5/26/2021 by YDZ.")
           )
         ),
@@ -105,12 +106,13 @@ ui <- list(
           tabName = "prerequisites",
           withMathJax(),
           h1("Prerequisites"),
-          p("When an analyst attempts to fit a statistical model to observed data,
-         they may wonder how close are the observed values to those which would be expected.
-         One statistical test that addresses this issue for categorical data is the chi-square goodness-of-fit test."),
+          p("When an analyst attempts to fit a statistical model to observed 
+            data, they may wonder how close are the observed values to those 
+            which would be expected. One statistical test that addresses this 
+            issue for categorical data is the chi-square goodness-of-fit test."),
          p("If the observed and expected values are not close, 
-           then the computed test statistic is large and the model is a poor fit to the data."),
-  
+           then the computed test statistic is large and the model is a poor 
+           fit to the data."),
          box(
            title = strong("Hypotheses"), # Remove all instances of strong in titles
            status = "primary",
@@ -118,8 +120,10 @@ ui <- list(
            collapsed = FALSE,
            width = '100%',
            tags$ul(
-             tags$li("Null: The distribution of the variable follows the expected distribution."),
-             tags$li("Alternative: The distribution of the variable differs from the expected distribution.")
+             tags$li("Null: The distribution of the variable follows the 
+                     expected distribution."),
+             tags$li("Alternative: The distribution of the variable differs 
+                     from the expected distribution.")
            )
          ),
          
@@ -155,11 +159,15 @@ ui <- list(
           
           # Introduction
           h2("Introduction"),
-          p("Use the sliders below for simulating example data from either an equiprobable or different probability null 
+          p("Use the sliders below for simulating example data from either an 
+            equiprobable or different probability null 
              (one p-value calculated for each simulation). 
-            Try different number of simulations to see how the distribution of p-value will behave, 
-            and read the captions below the sliders for more interpretation of the plot.
-            Go to Explore page if you have your own data and hypothesis to explore."),
+            Try different number of simulations to see how the distribution 
+            of p-value will behave, 
+            and read the captions below the sliders for more interpretation of 
+            the plot.
+            Go to Explore page if you have your own data and hypothesis to 
+            explore."),
           br(),
           
           ##### sideBar on the left ----
@@ -172,33 +180,29 @@ ui <- list(
                   align = "left",
                    radioButtons(inputId = "random",
                                label = "Proportion in each category",
-                               choices = c("Null with equal probabilities", "Null with different probabilities")
+                               choices = c("Null with equal probabilities", 
+                                           "Null with different probabilities")
                                ),
-                
                    sliderInput(inputId = "sampleBar",
                                label = "Sample size",
                                      min = 200,
                                      max = 2000,
                                      value = 1100 ,
                                      step = 1),
-
                          sliderInput(inputId = "categoriesBar",
                                      label = "Number of categories",
                                      min = 2,
                                      max = 8,
                                      value = 5 ,
                                      step = 1) ,
-
                          sliderInput(inputId = "simulationsBar",
                                      label = "Number of simulations",
                                      min = 1,
                                      max = 1000,
                                      value = 5 ,
                                      step = 1)
-    
                    )
-              ),                 
-
+              ),
               ##### Captions based simulationsBar ----
                          conditionalPanel(
                          condition = "input.simulationsBar <= 50",
@@ -769,7 +773,9 @@ server <- function(input, output, session) {
       d <- plotdata()$x
 
       data <- plotdata()$x
-      if (!(!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+      if (!(!is.null(v$click1$x) && 
+            abs(coordinatex - round(coordinatex)) < 0.1 && 
+            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
@@ -804,7 +810,9 @@ server <- function(input, output, session) {
       d <- plotdata2()
 
       data <- plotdata2()
-      if (!(!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+      if (!(!is.null(v$click1$x) && 
+            abs(coordinatex - round(coordinatex)) < 0.1 && 
+            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
@@ -833,7 +841,9 @@ server <- function(input, output, session) {
       mytable <- firstdata()
       d <- plotdata()$x
       data <- plotdata()$x
-      if (!(!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+      if (!(!is.null(v$click1$x) && 
+            abs(coordinatex - round(coordinatex)) < 0.1 && 
+            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
@@ -854,7 +864,9 @@ server <- function(input, output, session) {
       mytable <- firstdata2()
       d <- plotdata2()
       data <- plotdata2()
-      if (!(!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+      if (!(!is.null(v$click1$x) && 
+            abs(coordinatex - round(coordinatex)) < 0.1 && 
+            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
@@ -1064,12 +1076,14 @@ server <- function(input, output, session) {
     output$barGraphInitial <- renderPlot({
       if (goodNames()) enable("resample") else disable("resample")
       validate(
-        need(goodNames(),"To Start, enter level names for each category, seperated by commas ( e.g. A,B,C,D )."
+        need(goodNames(),"To Start, enter level names for each category, 
+             seperated by commas ( e.g. A,B,C,D )."
         ))
 
       if (goodNulls()) enable("resample") else disable("resample")
       validate(
-        need(goodNulls(),"Enter your null probabilities as decimals separated by commas. They should all be positive numbers that add to one.")
+        need(goodNulls(),"Enter your null probabilities as decimals separated 
+             by commas. They should all be positive numbers that add to one.")
       )
 
       if (goodNulls2()) enable("resample") else disable("resample")
@@ -1273,13 +1287,16 @@ server <- function(input, output, session) {
            ####### diff. interpretation based on no. of simulation ----
     output$remarksProb <- renderText({
       obs <- obschisqInput()
-      paste0("The orange curve approximates the true probability distribution of the chi-square statistic based on simulations.",
+      paste0("The orange curve approximates the true probability distribution 
+             of the chi-square statistic based on simulations.",
              " The black curve shows the large sample chi-square density.",
              " For your last simulation, you get a chi-square statistic of ",
              round(obs,2),
-             " The shaded area gives the approximate probability of getting a chi-square statistic of ",
+             " The shaded area gives the approximate probability of getting a 
+             chi-square statistic of ",
              round(obs,2),
-             " or more, if the probability of each outcome is under Null probabilities (i.e. the p-value ).")
+             " or more, if the probability of each outcome is under Null 
+             probabilities (i.e. the p-value ).")
     })
 
    # output$remarksProb2 <- renderText({
