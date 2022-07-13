@@ -4,6 +4,6 @@
 ![questioning](https://img.shields.io/badge/lifecycle-questioning-blue)
 ![year](https://img.shields.io/badge/year-2017-lightgrey)
 
-![App Screenshot](../sc.png)
+![App Screenshot](../docs/sc.png)
 
 This app explores the Chi-Square Goodness-fit Test for categorical data using simulations under the null hypothesis.
