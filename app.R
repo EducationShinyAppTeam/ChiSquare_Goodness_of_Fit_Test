@@ -40,7 +40,7 @@ ui <- list(
     dashboardSidebar(
       sidebarMenu(
         id = "pages",
-        menuItem("Overview", tabName = "overview", icon = icon("dashboard")),
+        menuItem("Overview", tabName = "overview", icon = icon("tachometer-alt")),
         menuItem("Prerequisites", tabName = "prerequisites", icon = icon("book")),
         menuItem("Example", tabName = "example", icon = icon("wpexplorer")),
         menuItem("Explore", tabName = "explore", icon = icon("wpexplorer")),
