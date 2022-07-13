@@ -66,11 +66,18 @@ ui <- list(
           br(),
           h2("Instructions"),
           tags$ul(
-            tags$li("Select one of the scenarios for the proportion in each category (Equal Probabilities or Different Probabilities)."),
-            tags$li("Move the sliders to change the values of number of observations, number of categories, and number of simulations."),
-            tags$li("A p-value is calculated and plotted for each simulation. You can click a p-value on the plot to see the summary table for that dataset."),
-            tags$li("When there are more than 50 simulations, only a histogram of p-values is shown."),
-            tags$li("You can use the Explore page to explore your own data and null hypothesis.")
+            tags$li("Select one of the scenarios for the proportion in each 
+                    category (Equal Probabilities or Different Probabilities)."),
+            tags$li("Move the sliders to change the values of number of 
+                    observations, number of categories, and number of 
+                    simulations."),
+            tags$li("A p-value is calculated and plotted for each simulation. 
+                    You can click a p-value on the plot to see the summary 
+                    table for that dataset."),
+            tags$li("When there are more than 50 simulations, only a histogram 
+                    of p-values is shown."),
+            tags$li("You can use the Explore page to explore your own data and 
+                    null hypothesis.")
           ),
           br(),
           ##### Go Button ----
@@ -342,14 +349,14 @@ ui <- list(
                        ),
                        
                    ###### 2nd Plot "pvalueplot" ----
-                       tabPanel(h5(tags$div(tags$strong("Simulated p-values plot"),
+                       tabPanel(h5(tags$div("Simulated p-values plot",
                                             style = "color:black" )),
                                 plotOutput(outputId = "pvalueplot",
                                            height = 400,
                                            width = 630)),
                    
                    ###### 3rd Plot "chisqCurve" (remarksProb2 & remarksProb)----
-                       tabPanel(h5(tags$div(tags$strong("Comparsion to null distribution"),
+                       tabPanel(h5(tags$div("Comparsion to null distribution",
                                             style = "color:black" )),
                                 plotOutput(outputId = "chisqCurve"),
                                 br(),
@@ -376,31 +383,45 @@ ui <- list(
           h2("References"),
           p( # shinyBS
             class = "hangingindent",
-            "Bailey, E. (2015). shinyBS: Twitter Bootstrap Components for Shiny. R package version 0.61. Available from https://CRAN.R-project.org/package=shinyBS"
+            "Bailey, E. (2015). shinyBS: Twitter Bootstrap Components for Shiny. 
+            R package version 0.61. Available from 
+            https://CRAN.R-project.org/package=shinyBS"
           ),
           p( # boastUtils
             class = "hangingindent",
-            "Carey, R. and Hatfield, N. (2020). boastUtils: BOAST Utilities. R package version 0.1.6.3. Available from https://github.com/EducationShinyAppTeam/boastUtils"
+            "Carey, R. and Hatfield, N. (2020). boastUtils: BOAST Utilities. 
+            R package version 0.1.6.3. Available from 
+            https://github.com/EducationShinyAppTeam/boastUtils"
           ),
           p( # shiny
             class = "hangingindent",
-            "Chang, W., Cheng, J., Allaire, J., Xie, Y., and McPherson, J. (2020). shiny: Web Application Framework for R. R package version 1.5.0. Available from https://CRAN.R-project.org/package=shiny"
+            "Chang, W., Cheng, J., Allaire, J., Xie, Y., and McPherson, J. 
+            (2020). shiny: Web Application Framework for R. R package 
+            version 1.5.0. Available from 
+            https://CRAN.R-project.org/package=shiny"
           ),
           p( # shinydashboard
             class = "hangingindent",
-            "Chang, W. and Borges Ribeiro, B. (2018). shinydashboard: Create Dashboards with 'Shiny'. R package version 0.7.1. Available from https://CRAN.R-project.org/package=shinydashboard"
+            "Chang, W. and Borges Ribeiro, B. (2018). shinydashboard: Create
+            Dashboards with 'Shiny'. R package version 0.7.1. Available from 
+            https://CRAN.R-project.org/package=shinydashboard"
           ),
           p( 
             class = "hangingindent",
-            "Chi-Square Goodness of Fit.” Statistics Online Support, sites.utexas.edu/sos/guided/inferential/categorical/univariate/chi2/"
+            "Chi-Square Goodness of Fit.” Statistics Online Support, 
+            sites.utexas.edu/sos/guided/inferential/categorical/univariate/chi2/"
           ),
           p( # shinyjs
             class = "hangingindent",
-            "Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 2.0.0. https://CRAN.R-project.org/package=shinyjs"
+            "Dean Attali (2020). shinyjs: Easily Improve the User Experience of 
+            Your Shiny Apps in Seconds. R package version 2.0.0. 
+            https://CRAN.R-project.org/package=shinyjs"
           ),
           p( # shinyWidgets
             class = "hangingindent",
-            "Perrier, V., Meyer, F., and Granjon, D. (2020). shinyWidgets: Custom Inputs Widgets for Shiny. R package version 0.5.3. Available from https://CRAN.R-project.org/package=shinyWidgets"
+            "Perrier, V., Meyer, F., and Granjon, D. (2020). shinyWidgets: 
+            Custom Inputs Widgets for Shiny. R package version 0.5.3. 
+            Available from https://CRAN.R-project.org/package=shinyWidgets"
             ),
           br(),
           br(),
@@ -550,7 +571,13 @@ server <- function(input, output, session) {
       x1 <- sample(1:nn,num_of_samples,replace = TRUE)
       
       # Compose data frame for equalProb:
-      xx = cbind(paste0(LETTERS[1:nn]),round(rep(num_of_samples/nn,nn),2), round(round(rep(num_of_samples/nn,nn),2)/sum(round(rep(num_of_samples/nn,nn),2)),3))
+      xx = cbind(
+        paste0(LETTERS[1:nn]),
+        round(rep(num_of_samples/nn,nn),2), 
+        round(
+          round(
+            rep(num_of_samples/nn,nn),
+            2)/sum(round(rep(num_of_samples/nn,nn),2)),3))
       xx = as.data.frame(xx,stringsAsFactors = FALSE)
       colnames(xx) = c("Categories","Expected Value", "Expected Proportion")
       xx[nrow(xx) + 1,] <- c("Total", round(sum(round(rep(num_of_samples/nn,nn),2)),0),"1")
