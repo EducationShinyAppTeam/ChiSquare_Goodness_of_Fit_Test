@@ -304,7 +304,7 @@ ui <- list(
                    ##### resample & reset Bottons ----
                    # This should be bsButton
                    bsButton(inputId = "resample",
-                            label = tags$div(tags$strong("Simulate Now")),
+                            label = tags$div("Simulate Now"),
                             size = "large"
                    ),
                   br(),
@@ -312,7 +312,7 @@ ui <- list(
                    # conditionalPanel(
                      # condition = "(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
                      bsButton(inputId = "reset",
-                              label =  tags$div(tags$strong("Start Over")),
+                              label =  tags$div("Start Over"),
                               size = "large"
                    )
                    # )
@@ -335,7 +335,7 @@ ui <- list(
                      tabsetPanel(
                        
                    ###### 1st Plot "barGraphLatest" & Table "summary1"----
-                       tabPanel(h5(tags$div(tags$strong("Latest Simulation"),
+                       tabPanel(h5(tags$div("Latest Simulation",
                                             style = "color:black" )),
                                 plotOutput(outputId = "barGraphLatest"),
                                 bsPopover(id = "barGraphLatest",
