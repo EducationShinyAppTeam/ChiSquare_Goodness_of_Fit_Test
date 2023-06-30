@@ -27,7 +27,7 @@ ui <- list(
       tags$li(
         class = "dropdown",
         boastUtils::surveyLink(
-          name = "Chi-Square Goodness-of-Fit-Test and Simulation"
+          name = "Goodness_of_Fit_Test"
         )
       ),
       tags$li(
@@ -40,7 +40,7 @@ ui <- list(
     dashboardSidebar(
       sidebarMenu(
         id = "pages",
-        menuItem("Overview", tabName = "overview", icon = icon("tachometer-alt")),
+        menuItem("Overview", tabName = "overview", icon = icon("gauge-high")),
         menuItem("Prerequisites", tabName = "prerequisites", icon = icon("book")),
         menuItem("Example", tabName = "example", icon = icon("wpexplorer")),
         menuItem("Explore", tabName = "explore", icon = icon("wpexplorer")),
@@ -54,11 +54,11 @@ ui <- list(
     ### Create the content ----
     dashboardBody(
       tabItems(
-        #### Set up the Overview Page ----
+        #### Overview Page ----
         tabItem(
           tabName = "overview",
           withMathJax(),
-          h1("Chi-Square Goodness-fit-Test"),
+          h1("Chi-Square Goodness of Fit Test"),
           # Please reformat long lines of code; the line below is an example
           p("In this app you will explore the Chi-Square Goodness-fit-Test with
             simulations. The test is applied when you have categorical variables
@@ -80,13 +80,13 @@ ui <- list(
                     null hypothesis.")
           ),
           br(),
-          ##### Go Button ----
+          ##### Prerequisites Button ----
           div(
             style = "text-align: center",
             bsButton(inputId = "overviewBotton",
                      label = "Prerequisites",
                      size = "large",
-                     icon = icon("bolt"),
+                     icon = icon("book"),
                      style = "default"
             )
           ),
@@ -96,10 +96,17 @@ ui <- list(
           h2("Acknowledgements"),
           p("This app was developed and coded by Jinglin Feng. Later modified 
             by Anna (Yinqi) Zhang. Special thanks to Alex Chen, Yuxin Zhang and 
-            Dr. Neil Hatfield for help on some programming issues. The most 
-            recent version was updated by Yudan Zhang.",
-            div(class = "updated", "Last Update: 5/26/2021 by YDZ.")
-          )
+            Dr. Neil Hatfield for help on some programming issues. The app was 
+            further updated by Yudan Zhang in 2021 and Sean Burke in 2023."),
+          br(),
+          br(),
+          "Cite this app as:",
+          br(),
+          citeApp(),
+          br(),
+          br(),
+          div(class = "updated", "Last Update: 6/29/2023 by SB.")
+          
         ),
         #### Set up the Prerequisites Page ----
         tabItem(

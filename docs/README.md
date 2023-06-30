@@ -6,4 +6,5 @@
 
 ![App Screenshot](../docs/sc.png)
 
+# App Description
 This app explores the Chi-Square Goodness-fit Test for categorical data using simulations under the null hypothesis.

@@ -1,11 +1,13 @@
-Title: Chi-Square Goodness of Fit Test App
+Title: Chi-Square Goodness of Fit Test
 ShortName: Goodness-of-Fit Test
-Date: 2021-06-25
+Date: 2017-08-01
 Lifecycle: questioning
 Authors@R: c(
-    person(given = "Neil", family = "Hatfield", email = "neil.hatfield@psu.edu", role = c("aut", "cre")),
-    person(given = "Robert", family = "Carey", email = "rpc5102@psu.edu", role = c("aut")),
-    person(given = "Yudan", family = "Zhang", email = "yvz5632@psu.edu", role = c("ctb"))
+    person(given = "Jinglin", family = "Feng", role = c("aut", "cre")),
+    person(given = "Anna(Yinqi)", family = "Zhang", role = c("aut")),
+    person(given = "Neil", family = "Hatfield", email = "neil.hatfield@psu.edu", role = c("ctb")),
+    person(given = "Yudan", family = "Zhang", email = "yvz5632@psu.edu", role = c("ctb")),
+    person(given = "Sean", family = "Burke", email = "sxb6203@psu.edu", role = c("ctb"))
   )
 Chapter: Categorical Data
 Description: In this app you will explore Chi-Square Goodness-fit-Test with simulations.
