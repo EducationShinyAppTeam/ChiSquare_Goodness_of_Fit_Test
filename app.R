@@ -87,7 +87,7 @@ ui <- list(
           div(
             style = "text-align: center",
             bsButton(
-              inputId = "goToOverview",
+              inputId = "goToPrereq",
               label = "Prerequisites",
               size = "large",
               icon = icon("book"),
@@ -152,7 +152,7 @@ ui <- list(
           div(
             style = "text-align: center",
             bsButton(
-              inputId = "goToPrereq",
+              inputId = "goToExample",
               label = "Examples",
               size = "large",
               icon = icon("bolt"),
@@ -243,7 +243,7 @@ ui <- list(
                     width = '90%',
                     click = "plotClick"
                   ),
-                  tableOutput("equalPlotClickedpoints"),
+                  tableOutput("equalPlotClickedPoints"),
                   htmlOutput(
                     outputId = "equalText",
                     class = "text-center"
@@ -262,7 +262,7 @@ ui <- list(
                   width = "90%",
                   click = "plotClick"
                 ),
-                tableOutput("diffPlotClickedpoints"),
+                tableOutput("diffPlotClickedPoints"),
                 htmlOutput(
                   outputId = "diffText",
                   class = "text-center"
@@ -332,7 +332,6 @@ ui <- list(
             ##### Plots on right ----
             column(
               width = 8,
-              
               ###### Initial Plot "barGraphInitial" & Table "obsTable" ----
               conditionalPanel(
                 condition = "input.resample == 0 || output.totalPrev == output.total",
@@ -457,6 +456,7 @@ ui <- list(
 
 # Define server logic ----
 server <- function(input, output, session) {
+  
   ## Bottons Output ----
   ### Info button
   observeEvent(
@@ -473,9 +473,9 @@ server <- function(input, output, session) {
   )
   
   ### Button on each page
-  # Overview
+  # Prerequisite Button
   observeEvent(
-    eventExpr = input$goToOverview,
+    eventExpr = input$goToPrereq,
     handlerExpr = {
       updateTabItems(
         session = session,
@@ -485,9 +485,9 @@ server <- function(input, output, session) {
     }
   )
   
-  # Prerequisites
+  # Example Button
   observeEvent(
-    eventExpr = input$goToPrereq,
+    eventExpr = input$goToExample,
     handlerExpr = {
       updateTabItems(
         session = session,
@@ -504,13 +504,13 @@ server <- function(input, output, session) {
   # For diffProb:
   firstdata <- reactive(
     x = {
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       ss = input$simulationsBar
       v$click1 <- NULL
       mytable <- list(0)
       for (i in 1:ss) {
-        x <- sample(1:nn,num_of_samples,replace = T)
+        x <- sample(1:nn,numOfSamples,replace = T)
         mytable[i] <- list(x)
       }
       mytable
@@ -520,13 +520,13 @@ server <- function(input, output, session) {
   # For equalProb:
   firstdata2 <- reactive(
     x = {
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       ss = input$simulationsBar
       v$click1 <- NULL
       mytable <- list(0)
       for (i in 1:ss) {
-        x <- sample(1:nn,num_of_samples,replace = T)
+        x <- sample(1:nn,numOfSamples,replace = T)
         mytable[i] <- list(x)
       }
       mytable
@@ -537,10 +537,10 @@ server <- function(input, output, session) {
   # For diffProb：
   sliderValues <- reactive(
     x = {
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       # pp=numeric(0)
-      x1 <- sample(1:nn,num_of_samples,replace = TRUE)
+      x1 <- sample(1:nn,numOfSamples,replace = TRUE)
       gen <- runif(input$categoriesBar)
       trueProp = gen/sum(gen)
       total = table(x1)
@@ -559,22 +559,22 @@ server <- function(input, output, session) {
   # For equalProb：
   sliderValues2 <- reactive(
     x = {
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       # pp=numeric(0)
-      x1 <- sample(1:nn,num_of_samples,replace = TRUE)
+      x1 <- sample(1:nn,numOfSamples,replace = TRUE)
       
       # Compose data frame for equalProb:
       xx = cbind(
         paste0(LETTERS[1:nn]),
-        round(rep(num_of_samples/nn,nn),2), 
+        round(rep(numOfSamples/nn,nn),2), 
         round(
           round(
-            rep(num_of_samples/nn,nn),
-            2)/sum(round(rep(num_of_samples/nn,nn),2)),3))
+            rep(numOfSamples/nn,nn),
+            2)/sum(round(rep(numOfSamples/nn,nn),2)),3))
       xx = as.data.frame(xx,stringsAsFactors = FALSE)
       colnames(xx) = c("Categories","Expected Value", "Expected Proportion")
-      xx[nrow(xx) + 1,] <- c("Total", round(sum(round(rep(num_of_samples/nn,nn),2)),0),"1")
+      xx[nrow(xx) + 1,] <- c("Total", round(sum(round(rep(numOfSamples/nn,nn),2)),0),"1")
       xx
     }
   )
@@ -623,7 +623,7 @@ server <- function(input, output, session) {
   # For diffProb
   plotdata <- reactive(
     x = {
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       ss = input$simulationsBar
       v$click1 <- NULL
@@ -654,7 +654,7 @@ server <- function(input, output, session) {
   # For equalProb
   plotdata2 <- reactive(
     x = {
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       ss = input$simulationsBar
       v$click1 <- NULL
@@ -693,14 +693,36 @@ server <- function(input, output, session) {
   
   #### scatterPlot and histogram Output ---- 
   
+  exploreAlt <- function(type) {
+    reactive(
+      if (input$simulationsBar <= 50) {
+        paste0(
+          "Scatterplot with ",
+          input$simulationsBar,
+          " point(s) that display(s) a relationship between simulation numbers 
+          and p-values with nulls of ",
+          type,
+          " probabilities."
+        )
+      } else {
+        paste0(
+          "Histogram that displays a P-value Distribution from the simulations 
+          with nulls of ",
+          type,
+          " probabilities."
+        )
+      }
+    )
+  }
+    
   #For diffPlot
   output$diffPlot <- renderPlot(
     expr = {
       ss <- input$simulationsBar
       nn <- input$categoriesBar
       d <- plotdata()$x
-      coordinatex <- as.numeric(v$click1$x)
-      coordinatey <- v$click1$y
+      xCoord <- as.numeric(v$click1$x)
+      yCoord <- v$click1$y
       if (ss <= 50) {
         plt <- ggplot(data = d, aes(x = index, y = pp)) +
           geom_point(
@@ -720,10 +742,10 @@ server <- function(input, output, session) {
           ) +
           coord_cartesian(clip = "off") 
         
-        if (!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 
-            && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) {
+        if (!is.null(v$click1$x) && abs(xCoord - round(xCoord)) < 0.1 
+            && abs(yCoord - d$pp[round(xCoord)]) < 0.01) {
           plt <- plt + geom_point(
-            data = d[round(coordinatex), , drop = FALSE],
+            data = d[round(xCoord), , drop = FALSE],
             aes(x = index, y = pp),
             col = boastUtils::psuPalette[4],
             size = 5.5
@@ -754,17 +776,17 @@ server <- function(input, output, session) {
           )
         plt
       }
-    }
+    },
+    alt = exploreAlt("different")
   )
-  
   # For equalProb
   output$equalPlot <- renderPlot(
     expr = {
       ss <- input$simulationsBar
       nn <- input$categoriesBar
       d <- plotdata2()
-      coordinatex <- as.numeric(v$click1$x)
-      coordinatey <- v$click1$y
+      xCoord <- as.numeric(v$click1$x)
+      yCoord <- v$click1$y
       if (ss <= 50) {
         plt <- ggplot(data = d, aes(x = index, y = pp)) +
           geom_point(
@@ -784,10 +806,10 @@ server <- function(input, output, session) {
           ) +
           coord_cartesian(clip = "off") 
         
-        if (!is.null(v$click1$x) && abs(coordinatex - round(coordinatex)) < 0.1 
-            && abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) {
+        if (!is.null(v$click1$x) && abs(xCoord - round(xCoord)) < 0.1 
+            && abs(yCoord - d$pp[round(xCoord)]) < 0.01) {
           plt <- plt + geom_point(
-            data = d[round(coordinatex), , drop = FALSE],
+            data = d[round(xCoord), , drop = FALSE],
             aes(x = index, y = pp),
             col = boastUtils::psuPalette[4],
             size = 5.5
@@ -818,7 +840,8 @@ server <- function(input, output, session) {
           )
         plt
       }
-    }
+    },
+    alt = exploreAlt("equal")
   )
   
   #### following table for clickedPoint ----
@@ -827,18 +850,18 @@ server <- function(input, output, session) {
     x = {
       # For base graphics, I need to specify columns, though for ggplot2,
       # it's usually not necessary.
-      coordinatex <- v$click1$x
-      coordinatey <- v$click1$y
+      xCoord <- v$click1$x
+      yCoord <- v$click1$y
       ss = input$simulationsBar
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       mytable <- firstdata()
       d <- plotdata()$x
       
       data <- plotdata()$x
       if (!(!is.null(v$click1$x) && 
-            abs(coordinatex - round(coordinatex)) < 0.1 && 
-            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+            abs(xCoord - round(xCoord)) < 0.1 && 
+            abs(yCoord - d$pp[round(xCoord)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
@@ -863,7 +886,7 @@ server <- function(input, output, session) {
       xx[nrow(xx) + 1,] <- c(
         "Total",
         sum(table(x1)),
-        round(sum(round(rep(num_of_samples/nn,nn),2)),0),
+        round(sum(round(rep(numOfSamples/nn,nn),2)),0),
         "1",
         "1"
       )
@@ -876,29 +899,29 @@ server <- function(input, output, session) {
     x = {
       # For base graphics, I need to specify columns, though for ggplot2,
       # it's usually not necessary.
-      coordinatex <- v$click1$x
-      coordinatey <- v$click1$y
+      xCoord <- v$click1$x
+      yCoord <- v$click1$y
       ss = input$simulationsBar
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       mytable <- firstdata2()
       d <- plotdata2()
       
       data <- plotdata2()
       if (!(!is.null(v$click1$x) && 
-            abs(coordinatex - round(coordinatex)) < 0.1 && 
-            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+            abs(xCoord - round(xCoord)) < 0.1 && 
+            abs(yCoord - d$pp[round(xCoord)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
       x1 <- unlist(mytable[i])
       
-      xx = cbind(paste0(LETTERS[1:nn]),table(x1),round(rep(num_of_samples/nn,nn),2),
+      xx = cbind(paste0(LETTERS[1:nn]),table(x1),round(rep(numOfSamples/nn,nn),2),
                  round(table(x1)/sum(table(x1)),2),
-                 round(round(rep(num_of_samples/nn,nn),2)/sum(round(rep(num_of_samples/nn,nn),2)),3))
+                 round(round(rep(numOfSamples/nn,nn),2)/sum(round(rep(numOfSamples/nn,nn),2)),3))
       xx = as.data.frame(xx,stringsAsFactors = FALSE)
       colnames(xx) = c("Categories","Observed Value","Expected Value", "Observed Proportion", "Expected Proportion")
-      xx[nrow(xx) + 1,] <- c("Total", sum(table(x1)),round(sum(round(rep(num_of_samples/nn,nn),2)),0),"1", "1")
+      xx[nrow(xx) + 1,] <- c("Total", sum(table(x1)),round(sum(round(rep(numOfSamples/nn,nn),2)),0),"1", "1")
       xx
     }
   )
@@ -909,17 +932,17 @@ server <- function(input, output, session) {
     x = {
       # For base graphics, I need to specify columns, though for ggplot2,
       # it's usually not necessary.
-      coordinatex <- v$click1$x
-      coordinatey <- v$click1$y
+      xCoord <- v$click1$x
+      yCoord <- v$click1$y
       ss = input$simulationsBar
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       mytable <- firstdata()
       d <- plotdata()$x
       data <- plotdata()$x
       if (!(!is.null(v$click1$x) && 
-            abs(coordinatex - round(coordinatex)) < 0.1 && 
-            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+            abs(xCoord - round(xCoord)) < 0.1 && 
+            abs(yCoord - d$pp[round(xCoord)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
@@ -933,17 +956,17 @@ server <- function(input, output, session) {
     x = {
       # For base graphics, I need to specify columns, though for ggplot2,
       # it's usually not necessary.
-      coordinatex <- v$click1$x
-      coordinatey <- v$click1$y
+      xCoord <- v$click1$x
+      yCoord <- v$click1$y
       ss = input$simulationsBar
-      num_of_samples = input$sampleBar
+      numOfSamples = input$sampleBar
       nn = input$categoriesBar
       mytable <- firstdata2()
       d <- plotdata2()
       data <- plotdata2()
       if (!(!is.null(v$click1$x) && 
-            abs(coordinatex - round(coordinatex)) < 0.1 && 
-            abs(coordinatey - d$pp[round(coordinatex)]) < 0.01) || ss > 50)
+            abs(xCoord - round(xCoord)) < 0.1 && 
+            abs(yCoord - d$pp[round(xCoord)]) < 0.01) || ss > 50)
         return()
       i <- round(v$click1$x)
       pvalue <- round(data$pp[round(v$click1$x)],3)
@@ -955,7 +978,7 @@ server <- function(input, output, session) {
   #### following table and p-value text Output ----
   # following table:
   # For equalProb
-  output$equalPlotClickedpoints <- renderTable(
+  output$equalPlotClickedPoints <- renderTable(
     expr = {
       clickedpoints2()
     },
@@ -966,7 +989,7 @@ server <- function(input, output, session) {
   )
   
   # For diffProb
-  output$diffPlotClickedpoints <- renderTable(
+  output$diffPlotClickedPoints <- renderTable(
     expr = {
       clickedpoints1()
     },
@@ -1066,7 +1089,7 @@ server <- function(input, output, session) {
     }
   )
   
-  obschisqInput <- reactive(
+  obsChisqInput <- reactive(
     x = {
       nulls <- nullsInput()/sum(nullsInput())
       totalCounts <- sum(obsInput())
@@ -1263,7 +1286,8 @@ server <- function(input, output, session) {
           legend.title = element_blank(),
           legend.text = element_text(size = 13)
         )
-    }
+    },
+    alt = "Histogram that displays the observed and Expected counts for each category."
   )
   
   output$remarksInitial <- renderText(
@@ -1277,7 +1301,7 @@ server <- function(input, output, session) {
         need(allGood && lengthCheck,"")
       )
       # Table "obsTable":
-      chisq <- obschisqInput()
+      chisq <- obsChisqInput()
       rounded1 <- round(chisq,2)
       p.value <- pchisq(chisq, length(nulls) - 1, lower.tail = FALSE)
       rounded2 <- round(p.value,3)
@@ -1358,14 +1382,15 @@ server <- function(input, output, session) {
             legend.text = element_text(size = 13)
           )
       }
-    }
+    },
+    alt = "Histogram that displays the observed, Expected,clatest resampled counts for each category."
   )
   
   # Table "summary1":
   output$remarksLatest1 <- renderText(
     expr = {
       input$resample
-      chisq <- obschisqInput()
+      chisq <- obsChisqInput()
       rounded1 <- round(chisq,2)
       rounded2 <- round(chisqSims[length(chisqSims)],2)
       paste(
@@ -1402,8 +1427,8 @@ server <- function(input, output, session) {
       input$resample
       nulls <- nullsInput()/sum(nullsInput())
       observed <- obsInput()
-      chisq <- obschisqInput()
-      obs <- isolate(obschisqInput())
+      chisq <- obsChisqInput()
+      obs <- isolate(obsChisqInput())
       n <- length(chisqSims)
       latest <- chisqSims[n]
       p.value <- pchisq(chisqSims, length(observed) - 1, lower.tail = FALSE)
@@ -1429,7 +1454,8 @@ server <- function(input, output, session) {
           axis.title = element_text(size = 14, face = "bold"),
           plot.title = element_text(size = 15, face = "bold")
         )
-    }
+    },
+    alt = "Histogram that displays the distribution of P-values from the simulations"
   )
   
   ###### 3rd Plot Output ----
@@ -1475,7 +1501,7 @@ server <- function(input, output, session) {
   output$chisqCurve <- renderPlot(
     expr = {
       sim <- input$sims
-      obs <- obschisqInput()
+      obs <- obsChisqInput()
       degFreedom <- dfInput()
       
       chisqInfo <- ChisqDensityArea(
@@ -1520,16 +1546,37 @@ server <- function(input, output, session) {
         labs(
           x = "Chi-Square Values",
           y = "Density",
-          title = paste("Chi-Square Curve, df =", degFreedom),
-          subtitle = paste("Shaded Area =", round(area, 4))
+          title = paste("Chi-Square Curve, df =", degFreedom, "\n", "Shaded Area =", round(area, 4))
+        ) +
+        theme(
+          axis.title = element_text(size = 14, face = "bold"),
+          plot.title = element_text(size = 15, face = "bold")
         )
-    }
+    },
+    alt = reactive(
+      x = {
+        chisqInfo <- ChisqDensityArea(
+          bound = round(obsChisqInput(), 3),
+          region = "above",
+          df = dfInput()
+        )
+        area <- chisqInfo$area
+        
+        paste0(
+          "Plot that displays a Chi-square Curve with degrees of freedom of ",
+          dfInput(),
+          " and a shaded area of ",
+          round(area, 4),
+          ". "
+        )
+      }
+    )
   )
   
   ####### diff. interpretation based on no. of simulation ----
   output$remarksProb <- renderText(
     expr = {
-      obs <- obschisqInput()
+      obs <- obsChisqInput()
       paste0("The orange curve approximates the true probability distribution 
              of the chi-square statistic based on simulations.",
              " The black curve shows the large sample chi-square density.",

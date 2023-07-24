@@ -19,5 +19,5 @@ DisplayMode: Normal
 URL: https://psu-eberly.shinyapps.io/Goodness_of_Fit_Test
 BugReports: https://github.com/EducationShinyAppTeam/Goodness_of_Fit_Test/issues
 License: CC-BY-NC-SA-4.0
-Tags: simulation
+Tags: simulation, classroom
 Type: Shiny
