@@ -1,0 +1,23 @@
+Title: Chi-Square Goodness of Fit Test
+ShortName: Goodness-of-Fit Test
+Date: 2017-08-01
+Lifecycle: questioning
+Authors@R: c(
+    person(given = "Jinglin", family = "Feng", role = c("aut", "cre")),
+    person(given = "Anna(Yinqi)", family = "Zhang", role = c("aut")),
+    person(given = "Neil", family = "Hatfield", email = "neil.hatfield@psu.edu", role = c("ctb")),
+    person(given = "Yudan", family = "Zhang", email = "yvz5632@psu.edu", role = c("ctb")),
+    person(given = "Sean", family = "Burke", email = "sxb6203@psu.edu", role = c("ctb"))
+  )
+Chapter: Categorical Data
+Description: In this app you will explore Chi-Square Goodness-fit-Test with simulations.
+LearningObjectives: c(
+    "The student will explore Chi-Square Goodness-fit-Test with simulations.",
+    "There is a test is applied when you have categorical variables from a population."
+  )
+DisplayMode: Normal
+URL: https://psu-eberly.shinyapps.io/Goodness_of_Fit_Test
+BugReports: https://github.com/EducationShinyAppTeam/Goodness_of_Fit_Test/issues
+License: CC-BY-NC-SA-4.0
+Tags: simulation, classroom
+Type: Shiny
