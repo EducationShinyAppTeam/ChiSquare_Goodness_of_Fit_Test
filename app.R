@@ -457,16 +457,24 @@ ui <- list(
 # Define server logic ----
 server <- function(input, output, session) {
   
-  ## Bottons Output ----
+  ## Buttons Output ----
   ### Info button
   observeEvent(
     eventExpr = input$info,
     handlerExpr = {
+      message <- switch(
+        EXPR = input$pages,
+        overview = "You will explore Chi-Square Goodness-fit-Test with simulations in this app.",
+        prerequisites = "Review the information necessary for understanding the Chi-Square Goodness-fit-Test.",
+        example = "Experiment with the sliders to see how the distribution of p-value will respond.",
+        explore = "Enter in your own data to to see the behavior of distribution of the chi-square statistic. (Refer to the instructions on the right to see what to enter in each spot.",
+        references = "References for the app can be found on this page."
+      )
       sendSweetAlert(
         session = session,
         type = "info",
         title = "Information",
-        text = "You will explore Chi-Square Goodness-fit-Test with simulations in this app",
+        text = message,
         btn_colors = boastUtils::boastPalette[5]
       )
     }
